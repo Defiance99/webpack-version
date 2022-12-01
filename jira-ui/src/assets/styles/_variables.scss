@@ -1,0 +1,27 @@
+$theme-light-purple: (
+  --j-primary-color: #673ab7,
+  --j-primary-hover-color: rgba(0,0,0,.2),
+  --j-primary-active-color: rgba(0,0,0,.4),
+  --j-primary-text-color: #fff,
+  --j-primary-light-color: rgba(103,58,183,.15),
+  --j-secondary-color: #fff,
+  --j-secondary-text-color: #673ab7,
+  --j-default-text-color: #000000de,
+  --j-item-hover-bg-color: #ddd,
+  --j-item-focus-color: #0052cc,
+  --j-item-focus-bg-color: #d2e5fe,
+  --j-text: #172b4d,
+  --j-text-subtitle: #42526e,
+  --j-border-color: #fafbfc,
+);
+
+$theme-dark-purple: (
+  --j-primary-color: #9c27b0,
+  --j-primary-hover-color: rgba(0,0,0,.2),
+  --j-primary-active-color: rgba(0,0,0,.4),
+  --j-primary-text-color: #fff,
+  --j-secondary-color: #303030,
+  --j-secondary-text-color: #673ab7,
+  --j-default-text-color: #000000de,
+);
+

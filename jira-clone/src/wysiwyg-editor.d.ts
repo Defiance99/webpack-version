@@ -1,0 +1,1 @@
+declare module 'wysiwyg/WEditor';

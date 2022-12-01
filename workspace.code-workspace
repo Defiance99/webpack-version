@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "jira-clone"
+		},
+		{
+			"path": "jira-ui"
+		},
+		{
+			"path": "wysiwyg"
+		}
+	],
+	"settings": {
+		"nuxt.isNuxtApp": false
+	}
+}

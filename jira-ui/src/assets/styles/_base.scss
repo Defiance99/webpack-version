@@ -1,0 +1,32 @@
+.hover-effect {
+  &:hover {
+    background-color: var(--j-primary-hover-color);
+  }
+}
+
+.active-effect {
+  &:active, &.active {
+    background-color: var(--j-primary-active-color);
+  }
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a {
+  color: initial;
+  text-decoration: none;
+}
+
+html {
+  overflow: hidden;
+}
+
+.cursor {
+  &-pointer {
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,19 @@
+$j-tooltip-show-animation: opacity 200ms cubic-bezier(0, 0, 0.2, 1), transform 150ms cubic-bezier(0, 0, 0.2, 1);
+
+$j-tooltip: (
+  color: #fff,
+  bg-color: #000000bf,
+  border-radius: 4px,
+  animation-properties: $j-tooltip-show-animation,
+
+  sizes: (
+    s: (
+      font-size: 12px,
+      line-height: 14px,
+    ),
+    xs: (
+      font-size: 14px,
+      line-height: 16px,
+    ),
+  ),
+);

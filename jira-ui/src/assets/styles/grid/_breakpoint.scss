@@ -1,0 +1,25 @@
+$grid-breakpoints: (
+  'xs': 0,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 1024px,
+  'xl': 1280px,
+);
+
+// $xs-container: 528px;
+// $sm-container: 540px;
+// $md-container: 752px;
+// $lg-container: 992px;
+$xs-container: 1300px;
+$sm-container: 1300px;
+$md-container: 1300px;
+$lg-container: 1300px;
+$xl-container: 1300px;
+
+$container-max-widths: (
+  'xs': $xs-container,
+  'sm': $sm-container,
+  'md': $sm-container,
+  'lg': $lg-container,
+  'xl': $xl-container,
+);

@@ -1,0 +1,6 @@
+:root.light-purple {
+  @include spread-map($theme-light-purple);
+}
+:root.dark-purple {
+  @include spread-map($theme-dark-purple);
+}

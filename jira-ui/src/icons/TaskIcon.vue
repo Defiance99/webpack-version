@@ -1,0 +1,26 @@
+<template>
+  <svg
+    id="task"
+    viewBox="0 0 16 16"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g
+      transform="translate(1 1)"
+      fill="none"
+      fill-rule="evenodd"
+    >
+      <rect
+        fill="#4BADE8"
+        width="14"
+        height="14"
+        rx="2"
+      />
+      <path
+        d="M6 9.5l4-5m-4 5l-2-2"
+        stroke="#FFF"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </g>
+  </svg>
+</template>

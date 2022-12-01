@@ -1,0 +1,22 @@
+$rounded: (
+  none: 0px,
+  6xs: 4px,
+  5xs: 6px,
+  4xs: 8px,
+  3xs: 10px,
+  xxs: 12px,
+  xs: 14px,
+  sm: 16px,
+  md: 20px,
+  lg: 24px,
+  xl: 26px,
+  xxl: 28px,
+  3xxl: 30px,
+  full: 50%,
+);
+
+@each $key, $value in $rounded {
+  .rounded-#{$key} {
+    border-radius: $value;
+  }
+}

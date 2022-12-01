@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JTooltip.vue renders correctly 1`] = `
+<div
+  class="j-tooltip-wrapper"
+>
+  
+  <div>
+    I am slot!
+  </div>
+  
+  <teleport-stub
+    to="#j-overlay-container"
+  >
+    <transition-stub
+      appear="false"
+      css="true"
+      name="fade"
+      persisted="false"
+    >
+      <!--v-if-->
+    </transition-stub>
+  </teleport-stub>
+</div>
+`;

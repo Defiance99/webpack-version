@@ -1,0 +1,127 @@
+$columns: 12;
+$default-col-padding: 12px;
+$default-measure: 4px;
+
+.d-none {
+  display: none;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.container {
+  padding: 0 16px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.col {
+  --columns: $columns;
+  --width: 0;
+  flex-basis: calc(var(--width) / var(--columns) * 100%);
+}
+
+@for $width from 1 through $columns {
+  .col-#{$width} {
+    flex-basis: $width / $columns * 100%;
+
+    &.padding {
+      padding-right: $default-col-padding;
+      padding-left: $default-col-padding;
+    }
+  }
+}
+
+@for $helperValue from 1 to 15 {
+  .mt-#{$helperValue} {
+    margin-top: calc(#{$helperValue} * #{$default-measure});
+  }
+  .mr-#{$helperValue} {
+    margin-right: calc(#{$helperValue} * #{$default-measure});
+  }
+  .mb-#{$helperValue} {
+    margin-bottom: calc(#{$helperValue} * #{$default-measure});
+  }
+  .ml-#{$helperValue} {
+    margin-left: calc(#{$helperValue} * #{$default-measure});
+  }
+  .pt-#{$helperValue} {
+    padding-top: calc(#{$helperValue} * #{$default-measure});
+  }
+  .pr-#{$helperValue} {
+    padding-right: calc(#{$helperValue} * #{$default-measure});
+  }
+  .pb-#{$helperValue} {
+    padding-bottom: calc(#{$helperValue} * #{$default-measure});
+  }
+  .pl-#{$helperValue} {
+    padding-left: calc(#{$helperValue} * #{$default-measure});
+  }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+
+  @media (min-width: map-get($grid-breakpoints, $breakpoint)) {
+    // // Grid classess
+    // .container {
+    //   max-width: map-get($container-max-widths, $breakpoint);
+    // }
+    
+    @for $column from 1 to $columns {
+      .col-#{$breakpoint}-#{$column} {
+        display: flex;
+        flex-basis: calc(#{$column} / #{$columns} * 100%);
+
+        &.d-padding {
+          padding-right: $default-col-padding;
+          padding-left: $default-col-padding;
+        }
+      }
+    }
+
+    .row-#{$breakpoint} {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    // Helpers classess
+    @for $helperValue from 1 to 15 {
+      .mt-#{$breakpoint}-#{$helperValue} {
+        margin-top: calc(#{$helperValue} * #{$default-measure});
+      }
+      .mr-#{$breakpoint}-#{$helperValue} {
+        margin-right: calc(#{$helperValue} * #{$default-measure});
+      }
+      .mb-#{$breakpoint}-#{$helperValue} {
+        margin-bottom: calc(#{$helperValue} * #{$default-measure});
+      }
+      .ml-#{$breakpoint}-#{$helperValue} {
+        margin-left: calc(#{$helperValue} * #{$default-measure});
+      }
+      .pt-#{$breakpoint}-#{$helperValue} {
+        padding-top: calc(#{$helperValue} * #{$default-measure});
+      }
+      .pr-#{$breakpoint}-#{$helperValue} {
+        padding-right: calc(#{$helperValue} * #{$default-measure});
+      }
+      .pb-#{$breakpoint}-#{$helperValue} {
+        padding-bottom: calc(#{$helperValue} * #{$default-measure});
+      }
+      .pl-#{$breakpoint}-#{$helperValue} {
+        padding-left: calc(#{$helperValue} * #{$default-measure});
+      }
+    }
+  }
+}

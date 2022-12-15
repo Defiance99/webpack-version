@@ -50,7 +50,7 @@ export default defineComponent({
           <span
             v-ripple
             v-bind="slotProps"
-            class="icon-wrapper"
+            class="icon-wrapper j-icon-btn"
             @click="openConfirmDialog"
             @keydown.space="openConfirmDialog"
             @keydown.enter="openConfirmDialog"
@@ -73,7 +73,7 @@ export default defineComponent({
             v-ripple
             :to="`/project/${issue.project}/issue/${issue.id}`"
             v-bind="slotProps"
-            class="icon-wrapper"
+            class="icon-wrapper j-icon-btn"
           >
             <JIcon
               icon="expand"
@@ -92,7 +92,7 @@ export default defineComponent({
           <span
             v-ripple
             v-bind="slotProps"
-            class="icon-wrapper"
+            class="icon-wrapper j-icon-btn"
             @click="$emit(emitDialogCloseName)"
             @keydown.space="$emit(emitDialogCloseName)"
             @keydown.enter="$emit(emitDialogCloseName)"
@@ -131,19 +131,6 @@ export default defineComponent({
     cursor: pointer;
     border-radius: 3px;
     overflow: hidden;
-
-    &:hover {
-      background-color: var(--j-item-hover-bg-color);
-    }
-
-    &:focus {
-      background-color: var(--j-primary-light-color);
-
-      svg {
-        fill: var(--j-primary-color);
-        color: var(--j-primary-color);
-      }
-    }
 
     .j-icon {
       width: 16px;

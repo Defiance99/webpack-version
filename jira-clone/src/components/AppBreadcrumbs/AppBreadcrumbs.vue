@@ -10,6 +10,12 @@ interface Breadcrumb {
 
 export default defineComponent({
   name: 'AppBreadcrumbs',
+  props: {
+    topMargin: {
+      type: Boolean,
+      default: true,
+    },
+  },
   setup() {
     const route = useRoute();
     const breadcrumbsList = ref<Breadcrumb[]>([]);
@@ -54,7 +60,10 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="app-breadcrumbs mt-7 mb-4">
+  <div
+    class="app-breadcrumbs mb-4"
+    :class="{ 'mt-7': topMargin }"
+  >
     <ul class="breadcrumbs-list">
       <li
         v-for="(breadcrumb, index) in breadcrumbsList"

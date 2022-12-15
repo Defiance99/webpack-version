@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import ProjectPageContainer from '@/components/ProjectPageContainer';
 import AppBreadcrumbs from '@/components/AppBreadcrumbs';
 import IssueDetailsContent from '@/components/shared/IssueDetailsContent';
 import IssueAboutDetailsGroup from '@/components/shared/IssueAboutDetailsGroup';
@@ -8,6 +9,7 @@ import IssueType from '@/components/shared/IssueType';
 export default defineComponent({
   components: {
     IssueType,
+    ProjectPageContainer,
     AppBreadcrumbs,
     IssueDetailsContent,
     IssueAboutDetailsGroup,
@@ -45,7 +47,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="issue-content issue-details-content">
+  <ProjectPageContainer class="issue-content issue-details-content">
     <AppBreadcrumbs />
 
     <IssueType
@@ -61,7 +63,7 @@ export default defineComponent({
         @resize="setAboutDetailsContentWidth"
       />
     </div>
-  </div>
+  </ProjectPageContainer>
 
   <div
     ref="issueAboutDetailsRef"
@@ -76,12 +78,6 @@ export default defineComponent({
   position: relative;
   overflow-x: hidden;
   overflow-y: auto;
-
-  &.issue-details-content {
-    flex-grow: 1;
-    padding-left: 8px;
-    padding-right: 32px;
-  }
 
   &.issue-about-details-content {
     flex-basis: 400px;

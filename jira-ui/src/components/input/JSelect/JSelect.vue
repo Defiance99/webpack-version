@@ -81,7 +81,7 @@ export default defineComponent({
     const createSelectedLabel = (isChipLabel: boolean): VNode[] => {
       return selectedValues.value.map((selectedValue, index) => h(
         isChipLabel ? JChip : 'div',
-        { class: 'mr-1 mb-1', key: index },
+        { class: 'j-select-chip', key: index },
         isChipLabel ? () => selectedValue : selectedValue,
       ));
     };
@@ -143,3 +143,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.j-select-chip {
+  margin: 2px 4px 2px 0;
+}
+</style>

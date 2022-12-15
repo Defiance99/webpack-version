@@ -35,19 +35,17 @@ initTheme();
 </script>
 
 <template>
-  <div>
-    <!-- <input v-model="userForm.id" type="text" name="name" />
-    <input v-model="userForm.name" type="text" name="name" />
-    <input v-model="userForm.email" type="email" name="name" />
-    <button @click="test(userForm)">Click me!</button> -->
-    <component :is="$route.meta.layout || 'div'">
-      <RouterView />
-    </component>
+  <!-- <input v-model="userForm.id" type="text" name="name" />
+  <input v-model="userForm.name" type="text" name="name" />
+  <input v-model="userForm.email" type="email" name="name" />
+  <button @click="test(userForm)">Click me!</button> -->
+  <component :is="$route.meta.layout || 'div'">
+    <RouterView />
+  </component>
 
-    <JOverlayRoot />
-    <!-- <h2>Current user name: {{ currentUser }}</h2>
-    <input v-model="userForm.id" type="text" name="name" />
-    <AppButton @click="subscribeTo(userForm.id)">Click me!</AppButton>
-    <q-btn color="black" label="Black" /> -->
-  </div>
+  <JOverlayRoot />
+  <!-- <h2>Current user name: {{ currentUser }}</h2>
+  <input v-model="userForm.id" type="text" name="name" />
+  <AppButton @click="subscribeTo(userForm.id)">Click me!</AppButton>
+  <q-btn color="black" label="Black" /> -->
 </template>

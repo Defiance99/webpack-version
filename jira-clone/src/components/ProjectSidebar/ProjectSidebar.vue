@@ -27,6 +27,10 @@ export default defineComponent({
       isDefaultSidebar.value = true;
     };
 
+    const setSidebarWidthCssVariable = (width: number): void => {
+      document.documentElement.style.setProperty('--sidebar-width', `${width}px`);
+    };
+
     const setDefaultSidebarWidth = (): void => {
       if (sidebarWrapperRef.value) {
         sidebarWrapperRef.value.style.width = `${defaultWidth}px`;
@@ -44,8 +48,12 @@ export default defineComponent({
 
       if (width <= minWidth) {
         setIconSidebar();
+        setSidebarWidthCssVariable(minWidth);
       } else if (isDefaultSidebar.value === false) {
         setDefaultSidebar();
+        setSidebarWidthCssVariable(defaultWidth);
+      } else {
+        setSidebarWidthCssVariable(width);
       }
     };
 
@@ -67,13 +75,17 @@ export default defineComponent({
 
       if (isDefaultSidebar.value) {
         setIconSidebar();
+        setSidebarWidthCssVariable(minWidth);
       } else {
         setDefaultSidebar();
         setDefaultSidebarWidth();
+        setSidebarWidthCssVariable(defaultWidth);
       }
 
       sidebarWrapperRef.value?.addEventListener('transitionend', removeTransitionWidth);
     };
+
+    setSidebarWidthCssVariable(defaultWidth);
 
     return {
       sidebarWrapperRef,
@@ -105,15 +117,17 @@ export default defineComponent({
           </div>
         </div>
         <JList>
-          <JListItem>
-            <div class="j-icon-wrapper">
-              <JIcon
-                icon="board"
-                container-size
-              />
-            </div>
-            <span class="list-item-label"> Project Board </span>
-          </JListItem>
+          <router-link :to="`/project/1/board`">
+            <JListItem>
+              <div class="j-icon-wrapper">
+                <JIcon
+                  icon="board"
+                  container-size
+                />
+              </div>
+              <span class="list-item-label"> Project Board </span>
+            </JListItem>
+          </router-link>
           <router-link :to="`/project/1/settings`">
             <JListItem>
               <div class="j-icon-wrapper">
@@ -240,6 +254,14 @@ $sidebar-width: 250px;
 
 .list-item-label {
   margin-left: 16px;
+}
+
+.j-list {
+  .router-link-active {
+    .j-list-item {
+      color: var(--j-primary-color);
+    }
+  }
 }
 
 .j-list-item {

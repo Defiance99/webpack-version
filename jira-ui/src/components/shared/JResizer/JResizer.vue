@@ -93,6 +93,10 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
+:root {
+  --resizer-width: 24px;
+}
+
 .forbid-selection {
   cursor: ew-resize;
 
@@ -111,9 +115,9 @@ $hover-transition: 250ms;
   display: flex;
   position: absolute;
   top: 0;
-  right: -24px;
+  right: calc(var(--resizer-width) * -1);
   bottom: 0;
-  width: 24px;
+  width: var(--resizer-width);
   z-index: 1;
   cursor: ew-resize;
 

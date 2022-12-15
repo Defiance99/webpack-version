@@ -12,6 +12,7 @@ import JIcon from '@/components/icon/JIcon';
 import JOption from '@/components/input/JOption';
 import JRadioGroup from '@/components/input/JRadioGroup';
 import JRadio from '@/components/input/JRadio';
+import JTextarea from '@/components/input/JTextarea';
 import JTextField from '@/components/input/JTextField';
 import JSelect from '@/components/input/JSelect';
 // Chips
@@ -52,6 +53,7 @@ export default [
   JOption,
   JRadioGroup,
   JRadio,
+  JTextarea,
   JTextField,
   JSelect,
 

@@ -1,8 +1,5 @@
 <script lang="ts">
-/* eslint-disable vuejs-accessibility/form-control-has-label */
-import {
-  defineComponent, ref, nextTick,
-} from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
   name: 'IssueTitle',
@@ -17,32 +14,13 @@ export default defineComponent({
     const isShowTitleEditor = ref(false);
     const titleWrapperRef = ref<HTMLDivElement | null>(null);
     const titleRef = ref<HTMLHeadingElement | null>(null);
-    const editorRef = ref<HTMLTextAreaElement | null>(null);
 
     const setTitleEditorDisplay = (display: boolean): void => {
       isShowTitleEditor.value = display;
     };
 
-    const setEditorHeight = (): void => {
-      if (editorRef.value) {
-        editorRef.value.style.height = 'auto';
-        editorRef.value.style.height = `${editorRef.value.scrollHeight}px`;
-      }
-    };
-
     const showTitleEditor = (): void => {
-      const titleRect = titleWrapperRef.value?.getBoundingClientRect();
-
-      if (titleRect && editorRef.value) {
-        editorRef.value.style.height = `${titleRect.height}px`;
-      }
-
       setTitleEditorDisplay(true);
-
-      nextTick(() => {
-        editorRef.value?.focus();
-        setEditorHeight();
-      });
     };
 
     const onSaveEditorValue = (): void => {
@@ -56,13 +34,11 @@ export default defineComponent({
     return {
       titleWrapperRef,
       titleRef,
-      editorRef,
       showTitleEditor,
       hideTitleEditor,
       isShowTitleEditor,
       onSaveEditorValue,
       issueTitleModel,
-      setEditorHeight,
     };
   },
 });
@@ -84,14 +60,13 @@ export default defineComponent({
       {{ title }}
     </h1>
   </div>
-  <textarea
+  <JTextarea
     v-if="isShowTitleEditor"
-    ref="editorRef"
     v-model="issueTitleModel"
     v-closable="{ handler: onSaveEditorValue, enable: isShowTitleEditor, exclude: titleRef }"
+    auto-focus
     rows="1"
     class="editor"
-    @input="setEditorHeight"
   />
 </template>
 

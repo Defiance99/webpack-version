@@ -20,6 +20,7 @@ module.exports = {
     'max-len': ['error', { code: 130 }],
     'vuejs-accessibility/label-has-for': ['off'],
     'vuejs-accessibility/aria-props': ['off'],
+    'vuejs-accessibility/form-control-has-label': ['off'],
     'import/extensions': [
       'error',
       'ignorePackages',

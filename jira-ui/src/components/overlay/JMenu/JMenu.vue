@@ -25,6 +25,10 @@ export default defineComponent({
       type: [String, Boolean],
       default: '#j-overlay-container',
     },
+    maxHeight: {
+      type: [Boolean],
+      default: true,
+    },
   },
   emits: [onInputEmitName],
   setup(props, { emit }) {
@@ -136,6 +140,7 @@ export default defineComponent({
           ref="contentMenuRef"
           class="j-menu-content"
           :data-position="position"
+          :class="{ 'j-max-height': maxHeight }"
           @click="closeMenu"
           @keydown.esc.stop="setMenuModel(false)"
           @keypress.enter="closeMenu"
@@ -163,13 +168,16 @@ export default defineComponent({
 .j-menu-content {
   padding-top: 8px;
   padding-bottom: 8px;
-  max-height: 304px;
   min-width: 200px;
   border-radius: 4px;
   pointer-events: auto;
   background-color: #fff;
   box-shadow: 0 2px 4px -1px #0003, 0 4px 5px #00000024, 0 1px 10px #0000001f;
   overflow-y: auto;
+
+  &.j-max-height {
+    max-height: 304px;
+  }
 
   &[data-position="below"] {
     transform-origin: right top;

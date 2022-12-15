@@ -4,6 +4,7 @@ import { defineComponent } from 'vue';
 const emitClickName = 'change:active-avatar';
 
 export default defineComponent({
+  // TODO: move to jira ui rep
   name: 'AvatarsGroup',
   props: {
     avatars: {
@@ -13,6 +14,10 @@ export default defineComponent({
     activeAvatars: {
       type: Array,
       default: () => [],
+    },
+    size: {
+      type: String,
+      default: 'full',
     },
   },
   emits: [emitClickName],
@@ -42,7 +47,7 @@ export default defineComponent({
       >
         <template #activator="slotProps">
           <JAvatar
-            size="full"
+            :size="size"
             offset
             v-bind="slotProps"
             @click="onAvatarHover(emitClickName, avatar)"
@@ -74,6 +79,7 @@ $avatar-offset: 0.25rem;
     bottom: 0;
     margin-left: -$avatar-offset;
     transition: bottom 100ms ease;
+    cursor: pointer;
 
     &:hover {
       bottom: 3px;

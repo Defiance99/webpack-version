@@ -1,12 +1,27 @@
-.hover-effect {
+.j-hover-effect {
   &:hover {
     background-color: var(--j-primary-hover-color);
   }
 }
 
-.active-effect {
+.j-active-effect {
   &:active, &.active {
     background-color: var(--j-primary-active-color);
+  }
+}
+
+.j-icon-btn {
+  &:hover {
+    background-color: var(--j-item-hover-bg-color);
+  }
+
+  &:focus {
+    background-color: var(--j-primary-light-color);
+
+    svg {
+      fill: var(--j-primary-color);
+      color: var(--j-primary-color);
+    }
   }
 }
 

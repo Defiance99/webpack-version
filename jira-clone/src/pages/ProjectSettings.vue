@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import ProjectPageContainer from '@/components/ProjectPageContainer';
 import AppBreadcrumbs from '@/components/AppBreadcrumbs';
 import PageTitle from '@/components/title/PageTitle';
 import ProjectSettingsForm from '@/modules/project-settings/components/ProjectSettingsForm';
@@ -7,6 +8,7 @@ import ProjectSettingsForm from '@/modules/project-settings/components/ProjectSe
 export default defineComponent({
   components: {
     PageTitle,
+    ProjectPageContainer,
     AppBreadcrumbs,
     ProjectSettingsForm,
   },
@@ -43,7 +45,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="issue-content issue-details-content">
+  <ProjectPageContainer class="project-settings">
     <AppBreadcrumbs />
 
     <PageTitle>
@@ -51,32 +53,5 @@ export default defineComponent({
     </PageTitle>
 
     <ProjectSettingsForm />
-  </div>
+  </ProjectPageContainer>
 </template>
-
-<style lang="scss" scoped>
-.issue-content {
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-
-  &.issue-details-content {
-    flex-grow: 1;
-    padding-left: 8px;
-    padding-right: 32px;
-  }
-
-  &.issue-about-details-content {
-    flex-basis: 400px;
-    padding: 0 32px;
-    min-width: 300px;
-    max-width: 50vw;
-  }
-}
-
-.issue-details {
-  :deep(.issue-details-header) {
-    margin-bottom: 0;
-  }
-}
-</style>

@@ -1,5 +1,4 @@
 <script lang="ts">
-/* eslint-disable vuejs-accessibility/form-control-has-label */
 /* eslint-disable max-len */
 import { defineComponent } from 'vue';
 
@@ -42,11 +41,19 @@ export default defineComponent({
     </div>
     <div class="comment-body">
       <template v-if="editor">
-        <textarea>
-          Placeholder text
-        </textarea>
+        <JTextarea
+          rows="1"
+          placeholder="Placeholder text"
+        />
         <div>
-          Pro tip: press M to comment
+          <strong>
+            Pro tip
+          </strong>
+          : press
+          <span class="comment-hot-key-tip">
+            M
+          </span>
+          to comment
         </div>
       </template>
       <div
@@ -73,5 +80,24 @@ export default defineComponent({
 
 .comment-body {
   margin-left: 42px;
+}
+
+.comment-hot-key-tip {
+  display: inline-block;
+  padding: 3px 4px 3px;
+  max-width: 100%;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--j-text-subtitle);
+  border-radius: 3px;
+  background-color: #DFE1E6;
+}
+
+.j-textarea {
+  &:hover:not(&:focus) {
+    background: #ebecf0;
+  }
 }
 </style>

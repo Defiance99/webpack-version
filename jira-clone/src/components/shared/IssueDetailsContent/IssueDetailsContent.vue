@@ -30,7 +30,6 @@ export default defineComponent({
     </h4>
 
     <WEditor
-      v-model="test"
       class="mb-4"
     />
 

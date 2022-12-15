@@ -1,5 +1,6 @@
 $theme-light-purple: (
   --j-primary-color: #673ab7,
+  --j-ds-background-selected: #ebe3fa,
   --j-primary-hover-color: rgba(0,0,0,.2),
   --j-primary-active-color: rgba(0,0,0,.4),
   --j-primary-text-color: #fff,
@@ -13,6 +14,7 @@ $theme-light-purple: (
   --j-text: #172b4d,
   --j-text-subtitle: #42526e,
   --j-border-color: #fafbfc,
+  --j-ds-background: #f4f5f7,
 );
 
 $theme-dark-purple: (

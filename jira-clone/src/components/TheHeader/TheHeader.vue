@@ -5,8 +5,9 @@ import { useRoute } from 'vue-router';
 import AppLogo from '@/components/logo/AppLogo';
 import AddIssueDialog from '@/components/AddIssueDialog';
 import HeaderSearchTool from './HeaderSearchTool.vue';
-import HeaderNotificationTool from './HeaderNotificationTool.vue';
+import HeaderProjectsMenu from './HeaderProjectsMenu.vue';
 import HeaderThemePickerTool from './HeaderThemePickerTool.vue';
+import HeaderNotificationTool from './HeaderNotificationTool.vue';
 
 const openSearchSidebarEmitName = 'toggle:search-sidebar';
 
@@ -16,12 +17,14 @@ export default defineComponent({
     AppLogo,
     AddIssueDialog,
     HeaderSearchTool,
+    HeaderProjectsMenu,
     HeaderNotificationTool,
     HeaderThemePickerTool,
   },
   emits: [openSearchSidebarEmitName],
   setup(_, { emit }) {
     const route = useRoute();
+    const projectsMenuModel = ref(false);
     const addIssueDialogModel = ref(false);
 
     const currentPath = computed(() => route.path);
@@ -34,8 +37,14 @@ export default defineComponent({
       addIssueDialogModel.value = true;
     };
 
+    const showProjectsMenu = (): void => {
+      projectsMenuModel.value = true;
+    };
+
     return {
       currentPath,
+      projectsMenuModel,
+      showProjectsMenu,
       showAddIssueDialog,
       addIssueDialogModel,
       toggleSearchSidebar,
@@ -50,7 +59,7 @@ export default defineComponent({
       <router-link
         v-ripple
         to="/"
-        class="hover-effect active-effect navigation-list-item"
+        class="j-hover-effect j-active-effect navigation-list-item"
         :class="{ active: currentPath === '/' }"
       >
         <AppLogo />
@@ -60,7 +69,7 @@ export default defineComponent({
         <li class="text-body-3">
           <JSemanticButton
             v-ripple
-            class="hover-effect active-effect navigation-list-item"
+            class="j-hover-effect j-active-effect navigation-list-item"
           >
             <span class="navigation-list-label">Your work</span>
             <JArrowIcon />
@@ -69,12 +78,18 @@ export default defineComponent({
         <li class="text-body-3">
           <JSemanticButton
             v-ripple
-            class="hover-effect active-effect navigation-list-item"
-            :class="{ active: currentPath === '/projects' }"
+            class="j-hover-effect j-active-effect navigation-list-item"
+            :class="{ active: currentPath === '/projects' || projectsMenuModel }"
+            @click="showProjectsMenu"
           >
             <span class="navigation-list-label">Projects</span>
             <JArrowIcon />
           </JSemanticButton>
+
+          <HeaderProjectsMenu
+            v-model="projectsMenuModel"
+            :attach="false"
+          />
         </li>
       </ul>
 
@@ -162,13 +177,17 @@ export default defineComponent({
 
 .navigation-list {
   display: flex;
+
+  & > li {
+    position: relative;
+    margin: 0 4px;
+  }
 }
 
 .navigation-list-item {
   display: flex;
   align-items: center;
   position: relative;
-  margin: 0 4px;
   padding: 0 12px;
   height: 36px;
   color: var(--j-primary-text-color);

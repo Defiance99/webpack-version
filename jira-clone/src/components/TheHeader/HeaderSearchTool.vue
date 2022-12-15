@@ -21,7 +21,7 @@ export default defineComponent({
         v-ripple
         v-bind="slotProps"
         aria-label="Button that shows a search drawer"
-        class="tool-icon-wrapper hover-effect rounded-md cursor-pointer ml-auto"
+        class="tool-icon-wrapper j-hover-effect rounded-md cursor-pointer ml-auto"
         @click="$emit(clickEmitName)"
       >
         <JIcon

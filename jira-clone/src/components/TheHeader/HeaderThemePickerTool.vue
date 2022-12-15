@@ -24,7 +24,7 @@ export default defineComponent({
           <JSemanticButton
             v-ripple
             aria-label="Button that shows a theme picker menu"
-            class="tool-icon-wrapper hover-effect rounded-md cursor-pointer ml-2"
+            class="tool-icon-wrapper j-hover-effect rounded-md cursor-pointer ml-2"
             v-bind="{ ...tooltipSlotProps, ...menuSlotProps }"
           >
             <JIcon

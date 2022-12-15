@@ -5,7 +5,7 @@ export default defineComponent({
   name: 'IssueType',
   props: {
     type: {
-      type: String,
+      type: [String, Boolean],
       default: null,
     },
     id: {
@@ -18,7 +18,10 @@ export default defineComponent({
 
 <template>
   <div class="issue-type">
-    <span class="icon-wrapper">
+    <span
+      v-if="type"
+      class="icon-wrapper"
+    >
       <JIcon
         :icon="type"
         container-size

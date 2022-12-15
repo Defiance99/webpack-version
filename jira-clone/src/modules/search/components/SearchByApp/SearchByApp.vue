@@ -131,6 +131,7 @@ export default defineComponent({
 }
 
 .search-icon-wrapper {
+  display: flex;
   width: 16px;
   height: 16px;
 }

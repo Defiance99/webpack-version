@@ -14,9 +14,9 @@ export default defineComponent({
 
 <template>
   <DefaultLayout>
-    <div class="issue-page">
+    <div class="project-page">
       <ProjectSidebar />
-      <div class="issue-content-wrapper">
+      <div class="project-content-wrapper">
         <slot />
       </div>
     </div>
@@ -26,7 +26,7 @@ export default defineComponent({
 <style scoped lang="scss">
 $header-height: 56px;
 
-.issue-page {
+.project-page {
   display: flex;
   height: calc(100vh - $header-height);
   overflow: hidden;
@@ -36,7 +36,7 @@ $header-height: 56px;
   }
 }
 
-.issue-content-wrapper {
+.project-content-wrapper {
   display: flex;
   padding-left: 24px;
   width: 100%;

@@ -195,7 +195,7 @@ export default defineComponent({
   }
 
   &.dense {
-    padding: 5px 16px 2px 4px;
+    padding: 5px 16px 4px 4px;
 
     .j-text-field-control-wrapper {
       min-height: 26px;

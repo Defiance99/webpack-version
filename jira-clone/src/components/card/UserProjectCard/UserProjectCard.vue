@@ -30,7 +30,7 @@ defineProps({
       <p class="title-links-block text-body-5 mb-1">
         Short links
       </p>
-      <a class="link-block hover-effect active-effect">
+      <a class="link-block j-hover-effect j-active-effect">
         <p class="link-name text-body-5">
           Total tasks
         </p>
@@ -39,7 +39,7 @@ defineProps({
         </JChip>
       </a>
       <a
-        class="link-block hover-effect active-effect"
+        class="link-block j-hover-effect j-active-effect"
       >
         <p class="link-name text-body-5">
           My tasks
@@ -48,7 +48,7 @@ defineProps({
           <span class="text-body-6">{{ project.totalTasks }}</span>
         </JChip>
       </a>
-      <a class="link-block hover-effect active-effect">
+      <a class="link-block j-hover-effect j-active-effect">
         <p class="link-name text-body-5">
           Complete task
         </p>

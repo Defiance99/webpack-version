@@ -9,7 +9,8 @@ export default defineComponent({
 <template>
   <div
     v-ripple
-    class="dialog-close-icon hover-effect"
+    class="dialog-close-icon j-hover-effect j-icon-btn"
+    tabindex="0"
   >
     <span class="icon-wrapper">
       <JIcon

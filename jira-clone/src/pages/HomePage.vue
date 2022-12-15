@@ -70,8 +70,7 @@ export default defineComponent({
     HomeIssueSection,
   },
   setup() {
-    const test = ref('hell123213');
-    return { issues, test };
+    return { issues };
   },
 });
 </script>

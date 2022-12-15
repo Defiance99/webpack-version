@@ -11,8 +11,8 @@ defineProps({
   size: {
     type: String,
     default: 'xs',
-    validator(value) {
-      return ['xs', 'full'].includes(value);
+    validator(value: string): boolean {
+      return ['xs', 's', 'full'].includes(value);
     },
   },
   rounded: {
@@ -37,6 +37,8 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
+@import './variables.scss';
+
 .j-avatar {
   display: flex;
   justify-content: center;
@@ -48,12 +50,22 @@ defineProps({
   }
 
   &.xs {
-    width: 32px;
-    height: 32px;
+    width: map-get($j-avatar-size, wrapper, xs, width);
+    height: map-get($j-avatar-size, wrapper, xs, height);
 
     .avatar-content {
-      width: 24px;
-      height: 24px;
+      width: map-get($j-avatar-size, avatar, xs, width);
+      height: map-get($j-avatar-size, avatar, xs, height);
+    }
+  }
+
+  &.s {
+    width: map-get($j-avatar-size, wrapper, s, width);
+    height: map-get($j-avatar-size, wrapper, s, height);
+
+    .avatar-content {
+      width: map-get($j-avatar-size, avatar, s, width);
+      height: map-get($j-avatar-size, avatar, s, height);
     }
   }
 

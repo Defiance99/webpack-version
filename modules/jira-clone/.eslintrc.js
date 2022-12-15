@@ -8,6 +8,7 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
+    'linebreak-style': ['error', 'windows'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'import/no-unresolved': [0, {
@@ -20,7 +21,6 @@ module.exports = {
     'max-len': ['error', { code: 130 }],
     'vuejs-accessibility/label-has-for': ['off'],
     'vuejs-accessibility/aria-props': ['off'],
-    'vuejs-accessibility/form-control-has-label': ['off'],
     'import/extensions': [
       'error',
       'ignorePackages',
@@ -37,12 +37,6 @@ module.exports = {
       files: ['**/__tests__/*.{j,t}s?(x)', '**/tests/unit/**/*.spec.{j,t}s?(x)'],
       env: {
         jest: true,
-      },
-    },
-    {
-      files: ['**/icons/**.vue'],
-      rules: {
-        'max-len': ['off'],
       },
     },
   ],

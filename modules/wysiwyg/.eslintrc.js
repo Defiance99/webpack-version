@@ -13,6 +13,7 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
+    'linebreak-style': ['error', 'windows'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     quotes: [2, 'single', 'avoid-escape'],

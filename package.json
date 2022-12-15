@@ -3,9 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run ui\" \"npm run wysiwyg\" \"npm run jira-clone\" ",
-    "jira-clone": "cd ./jira-clone && npm run dev",
-    "ui": "cd ./jira-ui && npm run dev",
-    "wysiwyg": "cd ./wysiwyg && npm run dev",
+    "jira-clone": "cd ./modules/jira-clone && npm run dev",
+    "ui": "cd ./modules/jira-ui && npm run dev",
+    "wysiwyg": "cd ./modules/wysiwyg && npm run dev",
     "build": "yarn workspaces run build",
     "serve": "wsrun --parallel serve"
   },

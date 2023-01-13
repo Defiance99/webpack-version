@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, computed } from 'vue';
 
 export default defineComponent({
   name: 'JOption',
@@ -12,13 +12,35 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    type: {
+      type: String,
+      default: 'checkbox',
+      validator: (value: string): boolean => ['checkbox', 'radio'].includes(value),
+    },
+  },
+  setup(props) {
+    const iconType = computed(() => {
+      if (props.type === 'checkbox') {
+        return {
+          icon: `${props.active ? 'activeCheckbox' : 'checkbox'}`,
+        };
+      }
+
+      return {
+        icon: `${props.active ? 'activeRadio' : 'radio'}`,
+      };
+    });
+
+    return {
+      iconType,
+    };
   },
 });
 </script>
 
 <template>
   <JIcon
-    :icon="active ? 'activeCheckbox' : 'checkbox'"
+    v-bind="iconType"
     class="checkbox-icon"
     :class="{ active }"
   />

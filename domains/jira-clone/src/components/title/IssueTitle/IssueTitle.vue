@@ -1,6 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 
+const onSaveEmitName = 'update:modelValue';
+
 export default defineComponent({
   name: 'IssueTitle',
   props: {
@@ -9,10 +11,9 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
-    const issueTitleModel = ref(props.title);
-    const isShowTitleEditor = ref(false);
-    const titleWrapperRef = ref<HTMLDivElement | null>(null);
+  setup(props, { emit }) {
+    const issueTitleModel = ref<string>(props.title);
+    const isShowTitleEditor = ref<boolean>(false);
     const titleRef = ref<HTMLHeadingElement | null>(null);
 
     const setTitleEditorDisplay = (display: boolean): void => {
@@ -24,18 +25,15 @@ export default defineComponent({
     };
 
     const onSaveEditorValue = (): void => {
-      setTitleEditorDisplay(false);
-    };
-
-    const hideTitleEditor = (): void => {
+      if (props.title !== issueTitleModel.value) {
+        emit(onSaveEmitName, issueTitleModel.value);
+      }
       setTitleEditorDisplay(false);
     };
 
     return {
-      titleWrapperRef,
       titleRef,
       showTitleEditor,
-      hideTitleEditor,
       isShowTitleEditor,
       onSaveEditorValue,
       issueTitleModel,
@@ -47,23 +45,21 @@ export default defineComponent({
 <template>
   <div
     v-show="isShowTitleEditor === false"
-    ref="titleWrapperRef"
     class="issue-title-wrapper"
     @click="showTitleEditor"
-    @blur="hideTitleEditor"
     @keypress.enter="showTitleEditor"
   >
     <h1
       ref="titleRef"
       class="issue-title"
     >
-      {{ title }}
+      {{ issueTitleModel }}
     </h1>
   </div>
   <JTextarea
     v-if="isShowTitleEditor"
     v-model="issueTitleModel"
-    v-closable="{ handler: onSaveEditorValue, enable: isShowTitleEditor, exclude: titleRef }"
+    v-closable="{ handler: onSaveEditorValue, exclude: titleRef }"
     auto-focus
     rows="1"
     class="editor"
@@ -75,6 +71,7 @@ export default defineComponent({
   margin-left: -8px;
   padding: 6px 7px;
   width: 100%;
+  min-height: 42px;
   color: var(--j-text);
   cursor: text;
   border: 1px solid transparent;

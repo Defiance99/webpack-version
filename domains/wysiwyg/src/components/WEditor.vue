@@ -27,9 +27,13 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  autoFocus: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits<{ (e: typeof inputEmitName, value: string): void }>();
+const emit = defineEmits<{ (e: string, value: string): void }>();
 
 const currentRanges = ref<Range[]>([]);
 const contentRef = ref<HTMLDivElement | null>(null);
@@ -82,6 +86,12 @@ const onBlur = (): void => {
 };
 
 onMounted(() => {
+  setTimeout(() => {
+    if (props.autoFocus) {
+      contentRef.value?.focus();
+    }
+  });
+
   watch(
     () => props.modelValue,
     (newHTML: string) => {

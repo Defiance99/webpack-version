@@ -5,7 +5,7 @@ const clickEmitName = 'click';
 
 export default defineComponent({
   name: 'HeaderSearchTool',
-  emits: [clickEmitName],
+  emits: [clickEmitName as string],
   setup() {
     return {
       clickEmitName,

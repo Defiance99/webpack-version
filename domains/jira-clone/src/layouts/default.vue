@@ -35,7 +35,7 @@ export default defineComponent({
       <slot />
 
       <template #drawer>
-        <SearchByApp />
+        <SearchByApp :focus="showSidebar" />
       </template>
     </JDrawer>
   </div>

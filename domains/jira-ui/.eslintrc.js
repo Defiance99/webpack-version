@@ -32,6 +32,7 @@ module.exports = {
         tsx: 'never',
       },
     ],
+    "arrow-body-style": ["off"],
   },
   overrides: [
     {

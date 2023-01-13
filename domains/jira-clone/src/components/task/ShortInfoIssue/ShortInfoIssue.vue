@@ -1,20 +1,11 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import type { PropType } from 'vue';
-import type IssueInfo from '@/interfaces/IssueInfo.interface';
+import { defineComponent, ref, PropType } from 'vue';
+import { Project } from '@/interfaces/Project.interfcace';
+import { Issue } from '@/interfaces/Issue.interface';
 import AvatarsGroup from '@/components/group/AvatarsGroup';
 import IssueDetails from '@/components/shared/IssueDetails';
-
-const avatars: string[] = [
-  // eslint-disable-next-line max-len
-  'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60ade11f54ac21007240527f/244e51a6-01e2-4617-ac9c-2756b03f2586/48',
-  // eslint-disable-next-line max-len
-  'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60ade11f54ac21007240527f/244e51a6-01e2-4617-ac9c-2756b03f2586/48',
-  // eslint-disable-next-line max-len
-  'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60ade11f54ac21007240527f/244e51a6-01e2-4617-ac9c-2756b03f2586/48',
-  // eslint-disable-next-line max-len
-  'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60ade11f54ac21007240527f/244e51a6-01e2-4617-ac9c-2756b03f2586/48',
-];
+import useIssueUtils from '@/composables/useIssueUtils';
+import useProjectsStore from '@/composables/store/useProjectsStore';
 
 export default defineComponent({
   name: 'ShortInfoIssue',
@@ -24,67 +15,80 @@ export default defineComponent({
   },
   props: {
     issue: {
-      type: Object as PropType<IssueInfo>,
+      type: Object as PropType<Issue>,
       required: true,
     },
-    watchersAvatars: {
+    assignedAvatars: {
       type: Boolean,
       default: false,
     },
   },
-  setup() {
+  setup(props) {
+    const { getProjectByKey } = useProjectsStore();
+    const project = getProjectByKey(props.issue.project) as Project;
+    const { issueAssignees } = useIssueUtils(project, props.issue);
     const issueDialogModel = ref<boolean>(false);
 
     const setDialogModel = (model: boolean): void => {
       issueDialogModel.value = model;
     };
 
-    return { issueDialogModel, setDialogModel, avatars };
+    return {
+      project,
+      issueDialogModel,
+      setDialogModel,
+      issueAssignees,
+    };
   },
 });
 </script>
 
 <template>
-  <JDialog v-model="issueDialogModel">
+  <JDialog
+    v-if="issue.deleted !== true"
+    v-model="issueDialogModel"
+  >
     <template #activator="slotProps">
       <JListItem
         v-ripple
         v-bind="slotProps"
         tabindex="0"
+        v-if="issue"
         class="short-issue-item mb-2"
       >
-        <span class="icon-wrapper">
-          <JIcon
-            :icon="issue.type"
-            container-size
-          />
-        </span>
+        <JIcon
+          :icon="issue.type"
+          container-size
+          icon-wrapper
+          size="20px"
+          b-radius="0px"
+        />
         <div class="issue-info ml-4">
           <span class="issue-name">
             {{ issue.name }}
           </span>
           <span>
-            <span class="issue-id">
-              {{ issue.number }}
+            <span class="issue-key">
+              {{ issue.key }}
             </span>
             <span class="issue-label text-body-4 ml-2">
-              Test project -
               {{ issue.project }}
             </span>
           </span>
         </div>
 
         <div
-          v-if="watchersAvatars"
+          v-if="assignedAvatars"
           class="avatar-group-wrapper"
         >
-          <AvatarsGroup :avatars="avatars" />
+          <AvatarsGroup :users="issueAssignees" />
         </div>
       </JListItem>
     </template>
 
     <IssueDetails
       :issue="issue"
+      :project="project"
       @close="setDialogModel(false)"
     />
   </JDialog>
@@ -108,7 +112,7 @@ export default defineComponent({
 
 .issue-name {
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   color: var(--j-text-subtitle);
 }
 
@@ -116,15 +120,12 @@ export default defineComponent({
   margin-left: auto;
 }
 
-.issue-id, .issue-label {
+.issue-key, .issue-label {
   font-size: 12px;
   color: var(--j-text-subtitle);
 }
 
-.icon-wrapper {
-  display: flex;
+.j-icon-wrapper {
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
 }
 </style>

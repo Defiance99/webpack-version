@@ -5,4 +5,4 @@ interface UserProject {
   shortInfo: string;
 }
 
-export default UserProject;
+export { UserProject };

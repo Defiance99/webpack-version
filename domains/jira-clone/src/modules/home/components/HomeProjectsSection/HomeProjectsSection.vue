@@ -1,39 +1,21 @@
-<script setup lang="ts">
+<script lang="ts">
+import { defineComponent } from 'vue';
+import useProjectsStore from '@/composables/store/useProjectsStore';
 import UserProjectCard from '@/components/card/UserProjectCard';
-import UserProject from '@/interfaces/UserProject.interface';
 
-const userProjects: UserProject = [
-  {
-    id: 1,
-    name: 'Test project',
-    totalTasks: 16,
-    shortInfo: 'Software product',
+export default defineComponent({
+  name: 'HomeProjectsSection',
+  components: {
+    UserProjectCard,
   },
-  {
-    id: 1,
-    name: 'Test project',
-    totalTasks: 16,
-    shortInfo: 'Software product',
+  setup() {
+    const { getProjects } = useProjectsStore();
+
+    return {
+      getProjects,
+    };
   },
-  {
-    id: 1,
-    name: 'Test project',
-    totalTasks: 16,
-    shortInfo: 'Software product',
-  },
-  {
-    id: 1,
-    name: 'Test project',
-    totalTasks: 16,
-    shortInfo: 'Software product',
-  },
-  {
-    id: 1,
-    name: 'Test project',
-    totalTasks: 16,
-    shortInfo: 'Software product',
-  },
-];
+});
 </script>
 
 <template>
@@ -41,20 +23,43 @@ const userProjects: UserProject = [
     <h2 class="mb-4">
       Recent projects
     </h2>
-    <div class="projects-list">
+    <div v-if="getProjects" class="projects-list">
       <UserProjectCard
-        v-for="(project, index) in userProjects"
+        v-for="(project, index) in getProjects"
         :key="index"
         :project="project"
+      />
+    </div>
+    <div
+      v-else
+      class="skeleton-projects-list"
+    >
+      <JSkeleton
+        v-for="(_, index) in 6"
+        :key="index"
+        height="134px"
+        width="100%"
+        class="skeleton-projects-list-item"
       />
     </div>
   </section>
 </template>
 
-<style>
+<style lang="scss" scoped>
 .projects-list {
   display: flex;
   flex-wrap: wrap;
   grid-gap: 12px;
+}
+
+.skeleton-projects-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.skeleton-projects-list-item {
+  margin-right: 8px;
+  margin-bottom: 8px;
+  max-width: 244px;
 }
 </style>

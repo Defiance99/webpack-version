@@ -1,14 +1,14 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { User } from '@/interfaces/User.interface';
 
 const emitClickName = 'change:active-avatar';
 
 export default defineComponent({
-  // TODO: move to jira ui rep
   name: 'AvatarsGroup',
   props: {
-    avatars: {
-      type: Array,
+    users: {
+      type: Array as PropType<Array<User>>,
       required: true,
     },
     activeAvatars: {
@@ -22,9 +22,8 @@ export default defineComponent({
   },
   emits: [emitClickName],
   setup(props, { emit }) {
-    // TODO: add type
-    const onAvatarHover = (avatar: any): void => {
-      emit(emitClickName, avatar);
+    const onAvatarHover = (user: User): void => {
+      emit(emitClickName, user);
     };
 
     return {
@@ -37,10 +36,10 @@ export default defineComponent({
 <template>
   <div class="j-avatar-group">
     <div
-      v-for="(avatar, index) in avatars"
+      v-for="(user, index) in users"
       :key="index"
       class="j-avatar-group-item"
-      :class="{ selected: activeAvatars.includes(avatar) }"
+      :class="{ selected: activeAvatars.includes(user) }"
     >
       <JTooltip
         attach=".drawer-content-wrapper"
@@ -50,17 +49,17 @@ export default defineComponent({
             :size="size"
             offset
             v-bind="slotProps"
-            @click="onAvatarHover(emitClickName, avatar)"
+            @click="onAvatarHover(user)"
           >
             <img
-              :src="avatar"
-              alt=""
+              :src="user.image"
+              alt="user-logo"
             >
           </JAvatar>
         </template>
 
         <span>
-          Vladimir
+          {{ user.name }}
         </span>
       </JTooltip>
     </div>

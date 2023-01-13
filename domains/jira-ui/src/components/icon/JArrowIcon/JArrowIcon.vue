@@ -20,7 +20,7 @@ export default {
 
 <template>
   <JIcon
-    icon="down"
+    icon="downArrow"
     :class="{ 'container-size': containerSize, margin, active }"
   />
 </template>

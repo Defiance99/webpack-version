@@ -62,7 +62,14 @@ export default defineComponent({
       />
     </FormControl>
 
-    <FormControlActions />
+    <FormControlActions>
+      <template #cancel>
+        Cancel
+      </template>
+      <template #create>
+        Save
+      </template>
+    </FormControlActions>
   </div>
 </template>
 

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -8,7 +8,7 @@ export default defineComponent({
       type: [String, Boolean],
       default: null,
     },
-    id: {
+    issueValue: {
       type: String,
       required: true,
     },
@@ -18,18 +18,17 @@ export default defineComponent({
 
 <template>
   <div class="issue-type">
-    <span
+    <JIcon
       v-if="type"
-      class="icon-wrapper"
-    >
-      <JIcon
-        :icon="type"
-        container-size
-      />
-    </span>
+      :icon="type"
+      container-size
+      icon-wrapper
+      size="16px"
+      b-radius="0px"
+    />
 
-    <span class="issue-number">
-      {{ id }}
+    <span class="issue-value">
+      {{ issueValue }}
     </span>
   </div>
 </template>
@@ -40,13 +39,7 @@ export default defineComponent({
   align-items: center;
 }
 
-.icon-wrapper {
-  display: flex;
-  width: 16px;
-  height: 16px;
-}
-
-.issue-number {
+.issue-value {
   padding-left: 6px;
   color: #6B778C;
 }

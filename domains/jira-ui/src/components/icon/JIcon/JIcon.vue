@@ -4,7 +4,7 @@ import { defineAsyncComponent } from 'vue';
 export default {
   name: 'JIcon',
   components: {
-    down: defineAsyncComponent(() => import('@/icons/DownArrowIcon.vue')),
+    downArrow: defineAsyncComponent(() => import('@/icons/DownArrowIcon.vue')),
     search: defineAsyncComponent(() => import('@/icons/SearchIcon.vue')),
     notification: defineAsyncComponent(() => import('@/icons/NotificationIcon.vue')),
     bug: defineAsyncComponent(() => import('@/icons/BugIcon.vue')),
@@ -27,8 +27,13 @@ export default {
     settings: defineAsyncComponent(() => import('@/icons/SettingsIcon.vue')),
     backlog: defineAsyncComponent(() => import('@/icons/BacklogIcon.vue')),
     reports: defineAsyncComponent(() => import('@/icons/ReportsIcon.vue')),
-    code: defineAsyncComponent(() => import('@/icons/PageIcon.vue')),
-    page: defineAsyncComponent(() => import('@/icons/CodeIcon.vue')),
+    page: defineAsyncComponent(() => import('@/icons/PageIcon.vue')),
+    codeTag: defineAsyncComponent(() => import('@/icons/CodeIcon.vue')),
+    highest: defineAsyncComponent(() => import('@/icons/HighestPriorityIcon.vue')),
+    high: defineAsyncComponent(() => import('@/icons/HighPriorityIcon.vue')),
+    medium: defineAsyncComponent(() => import('@/icons/MediumPriorityIcon.vue')),
+    low: defineAsyncComponent(() => import('@/icons/LowPriorityIcon.vue')),
+    lowest: defineAsyncComponent(() => import('@/icons/LowestPriorityIcon.vue')),
   },
   props: {
     icon: {
@@ -39,22 +44,53 @@ export default {
       type: Boolean,
       default: false,
     },
+    iconWrapper: {
+      type: Boolean,
+      default: false,
+    },
+    size: {
+      type: String,
+      default: '16px',
+    },
+    bRadius: {
+      type: String,
+      default: '4px',
+    },
   },
 };
 </script>
 
 <template>
+  <div v-if="iconWrapper" class="j-icon-wrapper">
+    <component
+      :is="icon"
+      aria-hidden="true"
+      class="j-icon"
+      :class="{'j-container-size': containerSize}"
+    />
+  </div>
   <component
     :is="icon"
+    v-else
     aria-hidden="true"
     class="j-icon"
-    :class="{'container-size': containerSize}"
+    :class="{'j-container-size': containerSize}"
   />
 </template>
 
 <style lang="scss" scoped>
-.container-size {
+.j-container-size {
   width: 100%;
   height: 100%;
+}
+
+.j-icon-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: v-bind(size);
+  width: v-bind(size);
+  border-radius: v-bind(bRadius);
+  overflow: hidden;
 }
 </style>

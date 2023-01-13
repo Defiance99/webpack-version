@@ -10,7 +10,6 @@ import JArrowIcon from '@/components/icon/JArrowIcon';
 import JIcon from '@/components/icon/JIcon';
 // Form inputs
 import JOption from '@/components/input/JOption';
-import JRadioGroup from '@/components/input/JRadioGroup';
 import JRadio from '@/components/input/JRadio';
 import JTextarea from '@/components/input/JTextarea';
 import JTextField from '@/components/input/JTextField';
@@ -20,6 +19,9 @@ import JChip from '@/components/chip/JChip';
 // Lists
 import JList from '@/components/list/JList';
 import JListItem from '@/components/list/JListItem';
+// Loaders
+import JSkeleton from '@/components/loaders/JSkeleton';
+import JSpinner from '@/components/loaders/JSpinner';
 // Tabs
 import JTabsHeader from '@/components/tab/JTabsHeader';
 import JTabHeaderItem from '@/components/tab/JTabHeaderItem';
@@ -51,7 +53,6 @@ export default [
   JIcon,
 
   JOption,
-  JRadioGroup,
   JRadio,
   JTextarea,
   JTextField,
@@ -61,6 +62,9 @@ export default [
 
   JList,
   JListItem,
+
+  JSkeleton,
+  JSpinner,
 
   JTabsHeader,
   JTabHeaderItem,

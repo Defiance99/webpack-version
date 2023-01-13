@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import UserProject from '@/interfaces/UserProject.interface';
+import { UserProject } from '@/interfaces/UserProject.interface';
 import UserProjectCard from './index';
 
 describe('UserProjectCard.vue', () => {
@@ -15,7 +15,7 @@ describe('UserProjectCard.vue', () => {
       props: {
         project: userProject,
       },
-    });
+    } as any);
 
     expect(projectCardWrapper.element).toMatchSnapshot();
   });

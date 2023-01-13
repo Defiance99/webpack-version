@@ -1,67 +1,11 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import type IssueInfo from '@/interfaces/IssueInfo.interface';
+import { RecentIssues } from '@/modules/home/interfaces/RecentIssues';
+import useFetchRecentIssues from '@/modules/home/composables/useFetchRecentIssues';
 import HomeProjectsSection from '@/modules/home/components/HomeProjectsSection';
 import HomeIssueSection from '@/modules/home/components/HomeIssueSection';
-
-const issues: IssueInfo[] = [
-  {
-    id: 1,
-    project: 1,
-    name: 'Задача по устранению интеграции с банком',
-    type: 'task',
-    number: 'MP-104',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Фоф дылвоа лдыоаылвфоаф',
-    type: 'bug',
-    number: 'MP-234',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'При регистрации пользователя - передавать язык выбранный на сайте',
-    type: 'story',
-    number: 'MP-22',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Отправлять письмо восстановление пароля на нужном языке',
-    type: 'task',
-    number: 'MP-521',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Logout (High)',
-    type: 'task',
-    number: 'MP-35',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Задача по устранению интеграции с банком',
-    type: 'task',
-    number: 'MP-104',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Фоф дылвоа лдыоаылвфоаф',
-    type: 'bug',
-    number: 'MP-234',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Фоф дылвоа лдыоаылвфоаф',
-    type: 'bug',
-    number: 'MP-234',
-  },
-];
+import useIssuesStore from '@/composables/store/useIssuesStore';
+import useLoaderUtils from '@/composables/useLoaderUtils';
 
 export default defineComponent({
   name: 'HomePage',
@@ -70,20 +14,43 @@ export default defineComponent({
     HomeIssueSection,
   },
   setup() {
-    return { issues };
+    const { fetchRecentIssues } = useFetchRecentIssues();
+    const { mergeIssues } = useIssuesStore();
+    const { isLoad, startLoad, stopLoad } = useLoaderUtils();
+    // TODO: add optimization, remove ref
+    const recentIssues = ref<RecentIssues>();
+
+    const initRecentIssues = async () => {
+      startLoad();
+      const issues: RecentIssues | null | undefined = await fetchRecentIssues();
+
+      if (issues) {
+        recentIssues.value = issues;
+
+        mergeIssues(recentIssues.value.recentInProgress);
+        mergeIssues(recentIssues.value.toDo);
+        mergeIssues(recentIssues.value.viewed);
+      }
+      stopLoad();
+    };
+
+    initRecentIssues();
+
+    return {
+      isLoad,
+      recentIssues,
+    };
   },
 });
 </script>
 
 <template>
   <JContainer class="pb-5 pt-5 about-page-container">
-    <h1 class="text-subtitle-1">
-      Your work
-    </h1>
+    <h1 class="text-subtitle-1">Your work</h1>
   </JContainer>
   <JContainer class="pt-5 home-page-content">
     <HomeProjectsSection class="mb-7" />
-    <HomeIssueSection :issues="issues" />
+    <HomeIssueSection :issues="recentIssues" :loading="isLoad" />
   </JContainer>
 </template>
 

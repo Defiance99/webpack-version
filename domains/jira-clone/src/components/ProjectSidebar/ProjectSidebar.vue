@@ -10,6 +10,13 @@ export default defineComponent({
     const minWidth = 56;
     const defaultWidth = 286;
 
+    const iconsConfig = {
+      containerSize: true,
+      iconWrapper: true,
+      size: '24px',
+      bRadius: '0px',
+    };
+
     const setIconSidebar = (): void => {
       if (sidebarWrapperRef.value === null) return;
 
@@ -88,6 +95,7 @@ export default defineComponent({
     setSidebarWidthCssVariable(defaultWidth);
 
     return {
+      iconsConfig,
       sidebarWrapperRef,
       isDefaultSidebar,
       setSidebarWidth,
@@ -105,12 +113,11 @@ export default defineComponent({
     >
       <nav class="app-sidebar">
         <div class="project-header">
-          <span class="project-logo">
-            <JIcon
-              icon="projectWallet"
-              container-size
-            />
-          </span>
+          <JIcon
+            v-bind="iconsConfig"
+            icon="projectWallet"
+            b-radius="3px"
+          />
           <div class="project-info">
             <span class="project-info-name"> Angular Jira Clone </span>
             <span class="project-info-subtitle text-body-3"> Software Project </span>
@@ -119,23 +126,19 @@ export default defineComponent({
         <JList>
           <router-link :to="`/project/1/board`">
             <JListItem>
-              <div class="j-icon-wrapper">
-                <JIcon
-                  icon="board"
-                  container-size
-                />
-              </div>
+              <JIcon
+                v-bind="iconsConfig"
+                icon="board"
+              />
               <span class="list-item-label"> Project Board </span>
             </JListItem>
           </router-link>
           <router-link :to="`/project/1/settings`">
             <JListItem>
-              <div class="j-icon-wrapper">
-                <JIcon
-                  icon="settings"
-                  container-size
-                />
-              </div>
+              <JIcon
+                v-bind="iconsConfig"
+                icon="settings"
+              />
               <span class="list-item-label">
                 Project Settings
               </span>
@@ -147,39 +150,31 @@ export default defineComponent({
 
         <JList>
           <JListItem :disabled="true">
-            <div class="j-icon-wrapper">
-              <JIcon
-                icon="backlog"
-                container-size
-              />
-            </div>
+            <JIcon
+              v-bind="iconsConfig"
+              icon="backlog"
+            />
             <span class="list-item-label"> Backlog </span>
           </JListItem>
           <JListItem :disabled="true">
-            <div class="j-icon-wrapper">
-              <JIcon
-                icon="page"
-                container-size
-              />
-            </div>
+            <JIcon
+              v-bind="iconsConfig"
+              icon="page"
+            />
             <span class="list-item-label"> Pages </span>
           </JListItem>
           <JListItem :disabled="true">
-            <div class="j-icon-wrapper">
-              <JIcon
-                icon="reports"
-                container-size
-              />
-            </div>
+            <JIcon
+              v-bind="iconsConfig"
+              icon="reports"
+            />
             <span class="list-item-label"> Reports </span>
           </JListItem>
           <JListItem :disabled="true">
-            <div class="j-icon-wrapper">
-              <JIcon
-                icon="code"
-                container-size
-              />
-            </div>
+            <JIcon
+              v-bind="iconsConfig"
+              icon="codeTag"
+            />
             <span class="list-item-label"> Code </span>
           </JListItem>
         </JList>
@@ -228,13 +223,6 @@ $sidebar-width: 250px;
   background: var(--j-border-color);
 }
 
-.project-logo {
-  width: 24px;
-  height: 24px;
-  border-radius: 3px;
-  overflow: hidden;
-}
-
 .project-info {
   display: flex;
   flex-direction: column;
@@ -267,11 +255,5 @@ $sidebar-width: 250px;
 .j-list-item {
   color: var(--j-text-subtitle);
   background: var(--j-border-color);
-
-  .j-icon-wrapper {
-    display: flex;
-    width: 24px;
-    height: 24px;
-  }
 }
 </style>

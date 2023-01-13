@@ -44,7 +44,7 @@ const props = defineProps({
   align-items: center;
   position: relative;
   cursor: pointer;
-  background: v-bind(props.background);
+  background: v-bind(background);
 }
 
 .size-s {

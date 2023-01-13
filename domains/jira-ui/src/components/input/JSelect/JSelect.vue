@@ -1,7 +1,7 @@
 <script lang="ts">
 /* eslint-disable arrow-body-style */
 import {
-  defineComponent, watch, ref, VNode, h, mergeProps,
+  defineComponent, watch, ref, VNode, h,
 } from 'vue';
 import { getAllSlotChildren } from '@/composables/utils/useParseNodes';
 import JMenu from '@/components/overlay/JMenu';
@@ -79,8 +79,9 @@ export default defineComponent({
     };
 
     const createSelectedLabel = (isChipLabel: boolean): VNode[] => {
+      const labelElement = isChipLabel ? JChip as unknown as string : 'div';
       return selectedValues.value.map((selectedValue, index) => h(
-        isChipLabel ? JChip : 'div',
+        labelElement,
         { class: 'j-select-chip', key: index },
         isChipLabel ? () => selectedValue : selectedValue,
       ));
@@ -127,9 +128,15 @@ export default defineComponent({
       { immediate: true },
     );
 
-    watch(() => slots.result?.(), () => {
-      resultSlotItems.value = getAllSlotChildren(slots.result?.() as VNode[]);
-    });
+    watch(
+      () => slots.result?.(),
+      (newSlots: VNode[] | undefined) => {
+        if (newSlots) {
+          resultSlotItems.value = newSlots;
+        }
+      },
+      { immediate: true },
+    );
 
     return () => h(
       JMenu,

@@ -1,49 +1,89 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import type { PropType } from 'vue';
-import type IssueInfo from '@/interfaces/IssueInfo.interface';
+import { defineComponent, PropType } from 'vue';
+import { Issue } from '@/interfaces/Issue.interface';
+import { Project } from '@/interfaces/Project.interfcace';
 import IssueDialogHeader from '@/components/shared/IssueDialogHeader';
 import IssueDetailsContent from '@/components/shared/IssueDetailsContent';
-import IssueAboutDetailsGroup from '@/components/shared/IssueAboutDetailsGroup';
+import IssueDetailsInfo from '@/components/shared/IssueDetailsInfo';
+import useFetchIssues from '@/composables/useFetchIssues';
+import useIssuesStore from '@/composables/store/useIssuesStore';
+import useFetchComments from '@/composables/useFetchComments';
 
-const emitDialogCloseName = 'close';
+const dialogCloseEmitName = 'close' as string;
 
 export default defineComponent({
   name: 'IssueDetails',
   components: {
     IssueDialogHeader,
     IssueDetailsContent,
-    IssueAboutDetailsGroup,
+    IssueDetailsInfo,
   },
   props: {
     issue: {
-      type: Object as PropType<IssueInfo>,
+      type: Object as PropType<Issue>,
+      required: true,
+    },
+    project: {
+      type: Object as PropType<Project>,
       required: true,
     },
   },
-  emits: [emitDialogCloseName],
-  setup() {
+  emits: [dialogCloseEmitName],
+  setup(props) {
+    const { setNewIssue } = useIssuesStore();
+    const { updateIssue } = useFetchIssues();
+    const { createComment } = useFetchComments();
+
+    const onIssueChange = async (id: number | undefined, keyName: string, value: number[] | string): Promise<void> => {
+      if (id === undefined) return;
+
+      const updatedIssue: Issue | null = await updateIssue({
+        id,
+        [keyName]: Array.isArray(value) ? [...value] : value,
+      });
+
+      if (updatedIssue) {
+        setNewIssue(updatedIssue);
+      }
+    };
+
+    const onCommentSave = (comment: string): void => {
+      createComment(props.issue.id, comment);
+    };
+
     return {
-      emitDialogCloseName,
+      onIssueChange,
+      onCommentSave,
+      dialogCloseEmitName,
     };
   },
 });
 </script>
 
 <template>
-  <div class="issue-details">
+  <div v-if="project" class="issue-details">
     <IssueDialogHeader
       :issue="issue"
-      @close="$emit(emitDialogCloseName)"
+      @close="$emit(dialogCloseEmitName)"
     />
 
     <div class="issue-details-body">
       <IssueDetailsContent
         :issue="issue"
         class="pr-10"
+        @update:title="onIssueChange(issue?.id, 'name', $event)"
+        @update:description="onIssueChange(issue?.id, 'description', $event)"
+        @save:comment="onCommentSave($event)"
       />
 
-      <IssueAboutDetailsGroup />
+      <IssueDetailsInfo
+        :issue="issue"
+        :project="project"
+        @update:status="onIssueChange(issue?.id, 'status', $event)"
+        @update:reporter="onIssueChange(issue?.id,'reporters', $event)"
+        @update:assignee="onIssueChange(issue?.id,'assignees', $event)"
+        @update:priority="onIssueChange(issue?.id,'priority', $event)"
+      />
     </div>
   </div>
 </template>

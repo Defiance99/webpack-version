@@ -1,14 +1,13 @@
 <template>
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    role="presentation"
-  >
-    <path
-      d="M14.155 4.055a1 1 0 00-1.271.62l-4.83 14.046a1 1 0 001.891.65l4.83-14.045a1 1 0 00-.62-1.271m-6.138 8.21l-2.58-2.501L8.236 7.05a.999.999 0 10-1.392-1.436l-3.54 3.432a1 1 0 000 1.436l3.32 3.219a1 1 0 101.393-1.436m12.219 1.568l-3.32-3.22a.999.999 0 10-1.393 1.437l2.58 2.5-2.799 2.715a.999.999 0 101.392 1.436l3.54-3.432a1 1 0 000-1.436"
-      fill="currentColor"
-      fill-rule="evenodd"
-    />
+  <svg id="page" viewBox="0 0 24 24">
+    <g fill="currentColor" fill-rule="evenodd">
+      <rect x="8" y="6" width="8" height="2" rx="1" />
+      <rect x="8" y="9" width="8" height="2" rx="1" />
+      <rect x="8" y="12" width="4" height="2" rx="1" />
+      <path
+        d="M7 4v16h10V4H7zm-2-.01C5 2.892 5.897 2 7.006 2h9.988C18.102 2 19 2.898 19 3.99v16.02c0 1.099-.897 1.99-2.006 1.99H7.006A2.003 2.003 0 015 20.01V3.99z"
+        fill-rule="nonzero"
+      />
+    </g>
   </svg>
 </template>

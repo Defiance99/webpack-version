@@ -1,19 +1,22 @@
-<script setup lang="ts">
-import { PropType, defineProps } from 'vue';
-import type UserProject from '@/interfaces/UserProject.interface';
+<script lang="ts">
+import { PropType, defineComponent } from 'vue';
+import type { Project } from '@/interfaces/Project.interfcace';
 
-defineProps({
-  project: {
-    type: Object as PropType<UserProject>,
-    required: true,
+export default defineComponent({
+  name: 'UserProjectCard',
+  props: {
+    project: {
+      type: Object as PropType<Project>,
+      required: true,
+    },
   },
 });
 </script>
 
 <template>
-  <div class="user-project-card">
+  <router-link :to="`/project/${project.id}/board`" class="user-project-card">
     <div>
-      <a class="project-name-block mb-3">
+      <div class="project-name-block mb-3">
         <span class="project-icon-wrapper">
           <JIcon
             icon="projectWallet"
@@ -24,40 +27,30 @@ defineProps({
           {{ project.name }}
         </p>
         <p class="text-body-5 text-ellipsis">
-          {{ project.shortInfo }}
+          {{ project.description }}
         </p>
-      </a>
+      </div>
       <p class="title-links-block text-body-5 mb-1">
         Short links
       </p>
-      <a class="link-block j-hover-effect j-active-effect">
+      <a class="link-block">
         <p class="link-name text-body-5">
           Total tasks
         </p>
         <JChip>
-          <span class="text-body-6">{{ project.totalTasks }}</span>
+          <span class="text-body-6">{{ project.totalIssues }}</span>
         </JChip>
       </a>
-      <a
-        class="link-block j-hover-effect j-active-effect"
-      >
-        <p class="link-name text-body-5">
-          My tasks
-        </p>
-        <JChip>
-          <span class="text-body-6">{{ project.totalTasks }}</span>
-        </JChip>
-      </a>
-      <a class="link-block j-hover-effect j-active-effect">
+      <a class="link-block">
         <p class="link-name text-body-5">
           Complete task
         </p>
         <JChip>
-          <span class="text-body-6">{{ project.totalTasks }}</span>
+          <span class="text-body-6">{{ project.totalCompleteIssues }}</span>
         </JChip>
       </a>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
@@ -73,6 +66,10 @@ defineProps({
 
   &:hover {
     box-shadow: 0 1px 5px rgba(9, 30, 66, 0.4);
+
+    .project-name {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -92,12 +89,6 @@ defineProps({
   position: relative;
   padding: 0 4px;
   cursor: pointer;
-
-  &:hover {
-    .project-name {
-      text-decoration: underline;
-    }
-  }
 }
 
 .title-links-block {

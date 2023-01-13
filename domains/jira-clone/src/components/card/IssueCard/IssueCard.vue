@@ -30,12 +30,21 @@ export default defineComponent({
       {{ issue.name }}
     </p>
     <div class="issue-card-info">
-      <span class="icon-wrapper">
-        <JIcon :icon="issue.type" />
-      </span>
-      <span class="icon-wrapper ml-1">
-        <JIcon :icon="issue.priority" />
-      </span>
+      <JIcon
+        :icon="issue.type"
+        icon-wrapper
+        container-size
+        size="18px"
+        b-radius="0px"
+      />
+      <JIcon
+        :icon="issue.priority"
+        icon-wrapper
+        container-size
+        size="18px"
+        b-radius="0px"
+        class="ml-1"
+      />
     </div>
     <div class="issue-card-info">
       <JAvatar size="xs">
@@ -86,12 +95,6 @@ export default defineComponent({
       padding-left: 0;
     }
   }
-}
-
-.icon-wrapper {
-  display: flex;
-  width: 16px;
-  height: 16px;
 }
 
 .issue-card-grabber {

@@ -1,34 +1,61 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import type { PropType } from 'vue';
-import type IssueInfo from '@/interfaces/IssueInfo.interface';
+import { Issue } from '@/interfaces/Issue.interface';
 import IssueType from '@/components/shared/IssueType';
+import DialogTitle from '@/components/title/DialogTItle';
+import FormControlActions from '@/components/form/FormControlActions';
+import useFetchIssues from '@/composables/useFetchIssues';
+import useIssuesStore from '@/composables/store/useIssuesStore';
+import useLoaderUtils from '@/composables/useLoaderUtils';
 
-const emitDialogCloseName = 'close';
+const dialogCloseEmitName = 'close' as string;
 
 export default defineComponent({
   name: 'IssueDialogHeader',
   components: {
     IssueType,
+    DialogTitle,
+    FormControlActions,
   },
   props: {
     issue: {
-      type: Object as PropType<IssueInfo>,
+      type: Object as PropType<Issue>,
       required: true,
     },
   },
-  emits: [emitDialogCloseName],
+  emits: [dialogCloseEmitName],
   setup() {
+    const { deleteIssue: deleteIssueFromStore } = useIssuesStore();
+    const { deleteIssueById } = useFetchIssues();
+    const { isLoad, startLoad, stopLoad } = useLoaderUtils();
     const confirmDialogModel = ref<boolean>(false);
 
     const openConfirmDialog = (): void => {
       confirmDialogModel.value = true;
     };
 
+    const closeConfirmDialog = (): void => {
+      confirmDialogModel.value = false;
+    };
+
+    const onDeleteIssue = async (issueId: number): Promise<void> => {
+      startLoad();
+      const isSuccessDeletedIssue: boolean = await deleteIssueById(issueId);
+
+      if (isSuccessDeletedIssue) {
+        deleteIssueFromStore(issueId);
+      }
+      stopLoad();
+    };
+
     return {
+      isLoad,
+      onDeleteIssue,
       confirmDialogModel,
+      closeConfirmDialog,
       openConfirmDialog,
-      emitDialogCloseName,
+      dialogCloseEmitName,
     };
   },
 });
@@ -37,7 +64,7 @@ export default defineComponent({
 <template>
   <div class="issue-dialog-header">
     <IssueType
-      :id="issue.number"
+      :issue-value="issue.key"
       :type="issue.type"
     />
 
@@ -93,9 +120,9 @@ export default defineComponent({
             v-ripple
             v-bind="slotProps"
             class="icon-wrapper j-icon-btn"
-            @click="$emit(emitDialogCloseName)"
-            @keydown.space="$emit(emitDialogCloseName)"
-            @keydown.enter="$emit(emitDialogCloseName)"
+            @click="$emit(dialogCloseEmitName)"
+            @keydown.space="$emit(dialogCloseEmitName)"
+            @keydown.enter="$emit(dialogCloseEmitName)"
           >
             <JIcon
               icon="close"
@@ -109,7 +136,26 @@ export default defineComponent({
     </div>
 
     <JDialog v-model="confirmDialogModel">
-      Закрыть окно?
+      <DialogTitle class="mb-4">
+        <span>
+          Are you sure you want to delete issue?
+        </span>
+      </DialogTitle>
+      <FormControlActions
+        flex-end
+        :is-load="isLoad"
+        @click:cancel="closeConfirmDialog"
+        @click:create="onDeleteIssue(issue.id)"
+      >
+        <template #cancel>
+          Cancel
+        </template>
+        <template #create>
+          <span>
+            Confrim
+          </span>
+        </template>
+      </FormControlActions>
     </JDialog>
   </div>
 </template>
@@ -149,5 +195,9 @@ export default defineComponent({
   display: flex;
   width: 16px;
   height: 16px;
+}
+
+.dialog-title {
+  max-width: 280px;
 }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue';
-import type IssueInfo from '@/interfaces/IssueInfo.interface';
+import type { RecentIssues } from '@/modules/home/interfaces/RecentIssues';
 import ShortInfoIssue from '@/components/task/ShortInfoIssue';
 
 export default defineComponent({
@@ -10,8 +10,12 @@ export default defineComponent({
   },
   props: {
     issues: {
-      type: Object as PropType<IssueInfo[]>,
-      required: true,
+      type: Object as PropType<RecentIssues>,
+      default: null,
+    },
+    loading: {
+      type: Boolean,
+      default: false,
     },
   },
   setup() {
@@ -32,27 +36,54 @@ export default defineComponent({
       <JTabHeaderItem>For to do</JTabHeaderItem>
     </JTabsHeader>
 
-    <JTabsBody v-model="activeTab">
+    <JTabsBody
+      v-if="loading === false"
+      v-model="activeTab"
+    >
       <JTabBodyItem>
-        <h3 class="mt-3 mb-3">
-          За последний месяц
+        <h3 class="home-tab-body-title">
+          Last monthly
         </h3>
         <ShortInfoIssue
-          v-for="(issue, index) in issues"
+          v-for="(issue, index) in issues.recentInProgress"
           :key="index"
           :issue="issue"
-          watchers-avatars
+          assigned-avatars
         />
       </JTabBodyItem>
       <JTabBodyItem>
-        <h3>За последнюю неделю</h3>
+        <h3 class="home-tab-body-title">
+          Last weekly
+        </h3>
+        <ShortInfoIssue
+          v-for="(issue, index) in issues.viewed"
+          :key="index"
+          :issue="issue"
+          assigned-avatars
+        />
       </JTabBodyItem>
       <JTabBodyItem>
-        <h3>За последнюю неделю</h3>
+        <h3 class="home-tab-body-title">
+          Last weekly
+        </h3>
+        <ShortInfoIssue
+          v-for="(issue, index) in issues.toDo"
+          :key="index"
+          :issue="issue"
+          assigned-avatars
+        />
       </JTabBodyItem>
     </JTabsBody>
 
-    <h1>I AM EHRE HELLOY</h1>
+    <div v-else>
+      <JSkeleton
+        v-for="(_, index) in 6"
+        :key="index"
+        height="45px"
+        width="100%"
+        class="mt-1"
+      />
+    </div>
   </section>
 </template>
 
@@ -61,5 +92,10 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
   grid-gap: 12px;
+}
+
+.home-tab-body-title {
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 </style>

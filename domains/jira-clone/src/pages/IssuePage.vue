@@ -3,7 +3,7 @@ import { defineComponent, ref } from 'vue';
 import ProjectPageContainer from '@/components/ProjectPageContainer';
 import AppBreadcrumbs from '@/components/AppBreadcrumbs';
 import IssueDetailsContent from '@/components/shared/IssueDetailsContent';
-import IssueAboutDetailsGroup from '@/components/shared/IssueAboutDetailsGroup';
+import IssueDetailsInfo from '@/components/shared/IssueDetailsInfo';
 import IssueType from '@/components/shared/IssueType';
 
 export default defineComponent({
@@ -12,7 +12,7 @@ export default defineComponent({
     ProjectPageContainer,
     AppBreadcrumbs,
     IssueDetailsContent,
-    IssueAboutDetailsGroup,
+    IssueDetailsInfo,
   },
   setup() {
     const issueAboutDetailsRef = ref<HTMLDivElement | null>(null);
@@ -69,7 +69,7 @@ export default defineComponent({
     ref="issueAboutDetailsRef"
     class="issue-content issue-about-details-content mt-8"
   >
-    <IssueAboutDetailsGroup />
+    <IssueDetailsInfo />
   </div>
 </template>
 

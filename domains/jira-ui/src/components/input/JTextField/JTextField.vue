@@ -1,6 +1,11 @@
 <script lang="ts">
 /* eslint-disable vuejs-accessibility/click-events-have-key-events */
-import { computed, defineComponent, ref } from 'vue';
+import {
+  computed,
+  defineComponent,
+  ref,
+  watch,
+} from 'vue';
 
 const inputEmitName = 'update:modelValue';
 const resetEmitName = 'update:resetValue';
@@ -36,9 +41,13 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    setFocus: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [inputEmitName, resetEmitName],
-  setup(props, { emit }) {
+  setup(props, { emit, slots }) {
     const textFieldRef = ref<HTMLElement | null>(null);
     const isFocusInput = ref<boolean>(false);
 
@@ -64,7 +73,24 @@ export default defineComponent({
       emit(resetEmitName);
     };
 
+    const setFocus = (): void => {
+      setTimeout(() => {
+        textFieldRef.value?.focus();
+      });
+    };
+
+    watch(
+      () => props.setFocus,
+      (setFocusToField: boolean): void => {
+        if (setFocusToField) {
+          setFocus();
+        }
+      },
+      { immediate: true },
+    );
+
     const showUnderline = computed(() => props.outlined === false);
+    const isExistPrependSlot = computed(() => slots.prepend?.());
 
     return {
       onBlurFocus,
@@ -74,6 +100,7 @@ export default defineComponent({
       textFieldRef,
       resetFieldValue,
       showUnderline,
+      isExistPrependSlot,
     };
   },
 });
@@ -85,7 +112,7 @@ export default defineComponent({
     :class="{ focused: isFocusInput, active: modelValue, input: showInput, outlined, dense, regular }"
     @click="onInputClick"
   >
-    <div class="prepend">
+    <div v-if="isExistPrependSlot" class="prepend">
       <slot name="prepend" />
     </div>
 

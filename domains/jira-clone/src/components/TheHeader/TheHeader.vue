@@ -27,13 +27,15 @@ export default defineComponent({
     const projectsMenuModel = ref(false);
     const addIssueDialogModel = ref(false);
 
+    // TODO: вынести установку дайлогов в отдельный компосабл!
+
     const currentPath = computed(() => route.path);
 
     const toggleSearchSidebar = (): void => {
       emit(openSearchSidebarEmitName);
     };
 
-    const showAddIssueDialog = (): void => {
+    const showIssueDialog = (): void => {
       addIssueDialogModel.value = true;
     };
 
@@ -45,7 +47,7 @@ export default defineComponent({
       currentPath,
       projectsMenuModel,
       showProjectsMenu,
-      showAddIssueDialog,
+      showIssueDialog,
       addIssueDialogModel,
       toggleSearchSidebar,
     };
@@ -66,6 +68,15 @@ export default defineComponent({
       </router-link>
 
       <ul class="navigation-list">
+        <li class="text-body-3">
+          <router-link
+            v-ripple
+            to="/about"
+            class="j-hover-effect j-active-effect navigation-list-item"
+          >
+            <span class="navigation-list-label">About project</span>
+          </router-link>
+        </li>
         <li class="text-body-3">
           <JSemanticButton
             v-ripple
@@ -88,7 +99,6 @@ export default defineComponent({
 
           <HeaderProjectsMenu
             v-model="projectsMenuModel"
-            :attach="false"
           />
         </li>
       </ul>
@@ -96,7 +106,7 @@ export default defineComponent({
       <JButton
         class="ml-3 create-button"
         type="stroked"
-        @click="showAddIssueDialog"
+        @click="showIssueDialog"
       >
         Create
       </JButton>
@@ -116,9 +126,7 @@ export default defineComponent({
     </nav>
   </header>
 
-  <JDialog v-model="addIssueDialogModel">
-    <AddIssueDialog />
-  </JDialog>
+  <AddIssueDialog v-model="addIssueDialogModel" />
 </template>
 
 <style lang="scss" scoped>

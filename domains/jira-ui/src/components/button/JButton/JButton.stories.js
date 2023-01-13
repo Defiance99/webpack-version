@@ -1,7 +1,7 @@
 import JButton from './JButton.vue';
 
 export default {
-  title: 'Buttons/Base',
+  title: 'Buttons/JButton',
   component: JButton,
   argTypes: {
     size: {
@@ -9,7 +9,7 @@ export default {
       control: { type: 'radio' },
     },
     type: {
-      options: ['primary'],
+      options: ['primary', 'normal', 'stroked'],
       control: { type: 'radio' },
     },
   },

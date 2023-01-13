@@ -38,12 +38,13 @@ export default defineComponent({
       class="filter-input"
     >
       <template #prepend>
-        <span class="search-icon-wrapper">
-          <JIcon
-            icon="search"
-            container-size
-          />
-        </span>
+        <JIcon
+          icon="search"
+          container-size
+          icon-wrapper
+          size="16px"
+          b-radius="0px"
+        />
       </template>
     </JTextField>
 
@@ -57,12 +58,6 @@ export default defineComponent({
 <style lang="scss" scoped>
 .project-board-filter {
   display: flex;
-}
-
-.search-icon-wrapper {
-  display: flex;
-  width: 16px;
-  height: 16px;
 }
 
 .filter-input {

@@ -12,12 +12,13 @@ export default defineComponent({
     class="dialog-close-icon j-hover-effect j-icon-btn"
     tabindex="0"
   >
-    <span class="icon-wrapper">
-      <JIcon
-        icon="close"
-        container-size
-      />
-    </span>
+  <JIcon
+    icon="close"
+    container-size
+    icon-wrapper
+    size="16"
+    b-radius="0px"
+  />
   </div>
 </template>
 
@@ -33,11 +34,5 @@ export default defineComponent({
   border-radius: 5px;
   color: var(--j-text-subtitle);
   overflow: hidden;
-
-  .icon-wrapper {
-    display: flex;
-    width: 16px;
-    height: 16px;
-  }
 }
 </style>

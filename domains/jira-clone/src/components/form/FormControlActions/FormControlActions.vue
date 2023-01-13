@@ -1,6 +1,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+const onClickCancelEmitName = 'click:cancel';
+const onClickCreateEmitName = 'click:create';
+
 export default defineComponent({
   name: 'FormControlActions',
   props: {
@@ -8,6 +11,20 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    directionReverse: {
+      type: Boolean,
+      default: false,
+    },
+    isLoad: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  setup() {
+    return {
+      onClickCancelEmitName,
+      onClickCreateEmitName,
+    };
   },
 });
 </script>
@@ -15,14 +32,28 @@ export default defineComponent({
 <template>
   <div
     class="form-control-actions"
-    :class="{ end: flexEnd }"
+    :class="{ end: flexEnd, reverse: directionReverse }"
   >
-    <JButton type="normal">
-      Cancel
+    <JButton
+      type="normal"
+      class="cancel-button"
+      @click="$emit(onClickCancelEmitName)"
+    >
+      <slot name="cancel" />
     </JButton>
 
-    <JButton class="ml-2">
-      Create
+    <JButton
+      class="create-button"
+      @click="$emit(onClickCreateEmitName)"
+    >
+      <JSpinner
+        v-if="isLoad"
+        width="20px"
+        height="20px"
+      />
+      <template v-else>
+        <slot name="create" />
+      </template>
     </JButton>
   </div>
 </template>
@@ -33,6 +64,22 @@ export default defineComponent({
 
   &.end {
     justify-content: flex-end;
+  }
+
+  &.reverse {
+    .create-button {
+      margin-left: 0;
+    }
+
+    .cancel-button {
+      order: 1;
+      margin-left: 8px;
+    }
+  }
+
+  .create-button {
+    margin-left: 8px;
+    min-width: 70px;
   }
 }
 </style>

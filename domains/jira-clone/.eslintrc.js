@@ -11,6 +11,7 @@ module.exports = {
     'linebreak-style': ['error', 'windows'],
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+    'arrow-body-style': 'off',
     'import/no-unresolved': [0, {
       caseSensitive: false,
     }],

@@ -14,9 +14,7 @@ const isExcludeElement = (target: HTMLElement, exclude: HTMLElement): boolean =>
 };
 
 const onBind: Directive = (el: HTMLElement, binding: DirectiveBinding): void => {
-  const { handler, enable, exclude } = binding.value;
-
-  if (enable === false) return;
+  const { handler, exclude } = binding.value;
 
   handleOutsideClick = (event: MouseEvent): void => {
     const target = event.target as HTMLElement;

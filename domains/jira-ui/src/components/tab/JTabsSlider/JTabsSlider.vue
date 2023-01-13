@@ -44,7 +44,7 @@ const props = defineProps({
 
 <style scoped>
 .j-tabs-slider::before {
-  left: v-bind(props.offsetX);
-  width: v-bind(props.width);
+  left: v-bind(offsetX);
+  width: v-bind(width);
 }
 </style>

@@ -1,6 +1,6 @@
-import { ref } from 'vue';
+import { shallowRef } from 'vue';
 
-const focusTrapsStore = ref<HTMLDivElement[]>([]);
+const focusTrapsStore = shallowRef<HTMLDivElement[]>([]);
 
 export default () => {
   const setFocusOnLastElement = (): void => {

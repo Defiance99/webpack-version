@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-const clickEmitName = 'click';
-const resizeEmitName = 'resize';
+const clickEmitName = 'click' as string;
+const resizeEmitName = 'resize' as string;
 
 export default defineComponent({
   name: 'JResizer',
@@ -83,7 +83,7 @@ export default defineComponent({
           class="resizer-icon"
           :class="{ 'min-resize': minResize }"
         >
-          <JIcon icon="down" />
+          <JIcon icon="downArrow" />
         </span>
       </div>
     </JSemanticButton>

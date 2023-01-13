@@ -1,67 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import type IssueInfo from '@/interfaces/IssueInfo.interface';
+import { defineComponent } from 'vue';
 import ShortInfoIssue from '@/components/task/ShortInfoIssue';
 import SearchResultNotFound from '@/modules/search/components/SearchResultNotFound';
-
-const issues: IssueInfo[] = [
-  {
-    id: 1,
-    project: 1,
-    name: 'Задача по устранению интеграции с банком',
-    type: 'task',
-    number: 'MP-104',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Фоф дылвоа лдыоаылвфоаф',
-    type: 'bug',
-    number: 'MP-234',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'При регистрации пользователя - передавать язык выбранный на сайте',
-    type: 'story',
-    number: 'MP-22',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Отправлять письмо восстановление пароля на нужном языке',
-    type: 'task',
-    number: 'MP-521',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Logout (High)',
-    type: 'task',
-    number: 'MP-35',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Задача по устранению интеграции с банком',
-    type: 'task',
-    number: 'MP-104',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Фоф дылвоа лдыоаылвфоаф',
-    type: 'bug',
-    number: 'MP-234',
-  },
-  {
-    id: 1,
-    project: 1,
-    name: 'Фоф дылвоа лдыоаылвфоаф',
-    type: 'bug',
-    number: 'MP-234',
-  },
-];
+import useSearchUtils from '@/composables/useSearchUtils';
 
 export default defineComponent({
   name: 'SearchByApp',
@@ -69,57 +10,77 @@ export default defineComponent({
     SearchResultNotFound,
     ShortInfoIssue,
   },
+  props: {
+    focus: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
-    const showSearchResult = ref<boolean>(false);
-    const searchValue = ref('');
-
-    const onFocusChange = (focusValue: boolean): void => {
-      showSearchResult.value = focusValue;
-    };
+    const {
+      onResetValue,
+      onValueChange,
+      getSearchValue,
+      searchResultList,
+      isLoadingSearchResult,
+    } = useSearchUtils();
 
     return {
-      showSearchResult,
-      onFocusChange,
-      issues,
-      searchValue,
+      getSearchValue,
+      onValueChange,
+      onResetValue,
+      searchResultList,
+      isLoadingSearchResult,
     };
   },
 });
 </script>
 
 <template>
-  <div
-    class="search-by-app"
-    :class="{ focused: showSearchResult }"
-  >
+  <div class="search-by-app">
     <div class="mb-4">
       <JTextField
-        v-model="searchValue"
+        :model-value="getSearchValue"
+        :set-focus="focus"
         placeholder="Search"
         name="search"
+        @update:modelValue="onValueChange"
+        @update:resetValue="onResetValue"
       >
         <template #prepend>
-          <span class="search-icon-wrapper">
-            <JIcon
-              icon="search"
-              container-size
-            />
-          </span>
+          <JIcon
+            icon="search"
+            container-size
+            icon-wrapper
+            size="16px"
+            b-radius="0px"
+          />
         </template>
       </JTextField>
     </div>
 
-    <p class="mb-4">
-      Recent issues
-    </p>
-
-    <ShortInfoIssue
-      v-for="(issue, index) in issues"
-      :key="index"
-      :issue="issue"
-    />
-
-    <SearchResultNotFound class="mt-10" />
+    <div class="search-result-wrapper">
+      <template v-if="searchResultList.length">
+        <ShortInfoIssue
+          v-for="(issue, index) in searchResultList"
+          :key="index"
+          :issue="issue"
+        />
+      </template>
+      <SearchResultNotFound
+        v-else-if="isLoadingSearchResult === false"
+        class="mt-10"
+      />
+      <div
+        v-else
+        class="search-loading-wrapper"
+      >
+        <JSpinner
+          width="40px"
+          height="40px"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -130,9 +91,16 @@ export default defineComponent({
   position: relative;
 }
 
-.search-icon-wrapper {
+.search-result-wrapper {
+  min-width: 450px;
+}
+
+.search-loading-wrapper {
   display: flex;
-  width: 16px;
-  height: 16px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  height: 100px;
+  color: var(--j-primary-color);
 }
 </style>

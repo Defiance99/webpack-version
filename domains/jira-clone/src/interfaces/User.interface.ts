@@ -1,7 +1,8 @@
 interface User {
-  id: number;
+  readonly id: number;
   name: string;
   image: string;
+  projects: number[];
 }
 
-export default User;
+export { User };

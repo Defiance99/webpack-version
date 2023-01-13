@@ -27,6 +27,7 @@ module.exports = defineConfig({
           './directives/clickOutside': './src/directives/clickOutside',
           './utils/useTheme': './src/composables/utils/useTheme',
           './utils/useThrottle': './src/composables/utils/useThrottle',
+          './utils/useDebounce': './src/composables/utils/useDebounce',
         },
         shared: {
           vue: {

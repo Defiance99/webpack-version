@@ -1,14 +1,34 @@
 <script lang="ts">
-/* eslint-disable max-len */
-import { defineComponent } from 'vue';
+import { defineComponent, PropType } from 'vue';
+import { IssueComment } from '@/interfaces/Issue.interface';
+import IssueEditor from '@/components/shared/IssueEditor';
+import useUserStore from '@/composables/store/useUserStore';
+
+const onSaveCommentEmitName = 'save' as string;
 
 export default defineComponent({
   name: 'CommentsListItem',
+  components: {
+    IssueEditor,
+  },
+  emits: [onSaveCommentEmitName],
   props: {
     editor: {
       type: Boolean,
       default: false,
     },
+    comment: {
+      type: Object as PropType<IssueComment>,
+      default: null,
+    },
+  },
+  setup() {
+    const { getUser } = useUserStore();
+
+    return {
+      getUser,
+      onSaveCommentEmitName,
+    };
   },
 });
 </script>
@@ -21,47 +41,39 @@ export default defineComponent({
         offset
       >
         <img
-          src="https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60ade11f54ac21007240527f/244e51a6-01e2-4617-ac9c-2756b03f2586/48"
+          :src="getUser?.image"
           alt=""
         >
       </JAvatar>
 
       <div class="comment-author">
         <span class="text-subtitle-4">
-          Vladimir Vo
+          {{ getUser?.name }}
         </span>
 
         <span
           v-if="editor === false"
           class="text-body-2 ml-3"
         >
-          Nov 22, 2022, 4:46:06 PM
+          {{ comment.created }}
         </span>
       </div>
     </div>
     <div class="comment-body">
       <template v-if="editor">
-        <JTextarea
-          rows="1"
-          placeholder="Placeholder text"
+        <IssueEditor
+          placeholder="Add a comment"
+          :border="true"
+          m-focus
+          class="mb-3"
+          @save="$emit(onSaveCommentEmitName, $event)"
         />
-        <div>
-          <strong>
-            Pro tip
-          </strong>
-          : press
-          <span class="comment-hot-key-tip">
-            M
-          </span>
-          to comment
-        </div>
       </template>
       <div
         v-else
+        v-html="comment.html"
         class="comment-message"
-      >
-        sdafsdfsadf
-      </div>
+      />
     </div>
   </div>
 </template>
@@ -80,24 +92,5 @@ export default defineComponent({
 
 .comment-body {
   margin-left: 42px;
-}
-
-.comment-hot-key-tip {
-  display: inline-block;
-  padding: 3px 4px 3px;
-  max-width: 100%;
-  font-size: 11px;
-  font-weight: 700;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--j-text-subtitle);
-  border-radius: 3px;
-  background-color: #DFE1E6;
-}
-
-.j-textarea {
-  &:hover:not(&:focus) {
-    background: #ebecf0;
-  }
 }
 </style>

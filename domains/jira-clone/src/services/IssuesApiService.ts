@@ -1,28 +1,31 @@
-import apiClient from '@/composables/apiClient';
+import apiClient from '@/services/apiClient';
 import ApiClient from '@/interfaces/ApiClient.interface';
 import {
   Issue,
-  UpdateIssue,
+  PreviewIssue,
+  PatchIssuePayload,
   CreateIssue,
   IssueSearchParams,
 } from '@/interfaces/Issue.interface';
-import { RecentIssues } from '@/modules/home/interfaces/RecentIssues';
+import { TabsIssues } from '@/modules/home/interfaces/TabsIssues';
 
 const issueBasePath = '/issues';
+const issuesByProjectPath = `${issueBasePath}/project`;
+const searchIssuePath = `${issueBasePath}/search`;
 const recentActualPath = `${issueBasePath}/recently`;
-const detailsIssuePath = `${issueBasePath}'/details'`;
+const detailsIssuePath = `${issueBasePath}/details`;
 const createIssuePath = `${issueBasePath}/create`;
 
 export default {
-  async getIssues(params: IssueSearchParams): Promise<ApiClient<Issue[]>> {
-    return apiClient.get(issueBasePath, { params });
+  async fetchPreviewIssues(params: IssueSearchParams): Promise<ApiClient<PreviewIssue[]>> {
+    return apiClient.get(searchIssuePath, { params });
   },
 
-  async getRecentActualIssues(): Promise<ApiClient<RecentIssues>> {
+  async fetchRecentActualIssuesIds(): Promise<ApiClient<TabsIssues>> {
     return apiClient.get(recentActualPath);
   },
 
-  async getIssueById(id: number, projectKey: string): Promise<ApiClient<Issue>> {
+  async fetchIssueById(id: number, projectKey: string): Promise<ApiClient<Issue>> {
     const params = {
       id,
       projectKey,
@@ -31,7 +34,11 @@ export default {
     return apiClient.get(detailsIssuePath, { params });
   },
 
-  async patchIssue(payload: UpdateIssue): Promise<ApiClient<Issue>> {
+  async fetchProjectIssues(id: number): Promise<ApiClient<Issue[]>> {
+    return apiClient.get(issuesByProjectPath, { params: { projectId: id } });
+  },
+
+  async patchIssue(payload: PatchIssuePayload): Promise<ApiClient<Issue>> {
     return apiClient.patch(issueBasePath, payload);
   },
 

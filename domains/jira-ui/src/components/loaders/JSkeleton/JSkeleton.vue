@@ -32,11 +32,11 @@ export default defineComponent({
   &::after {
     content: "";
     position: absolute;
-    height: 100%;
+    z-index: 1;
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1;
+    height: 100%;
     background: linear-gradient(
       90deg,
       hsla(0, 0%, 100%, 0),

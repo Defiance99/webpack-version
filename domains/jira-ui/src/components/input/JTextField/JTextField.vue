@@ -45,6 +45,10 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    textMargin: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [inputEmitName, resetEmitName],
   setup(props, { emit, slots }) {
@@ -116,7 +120,10 @@ export default defineComponent({
       <slot name="prepend" />
     </div>
 
-    <div class="j-text-field-control-wrapper">
+    <div
+      class="j-text-field-control-wrapper"
+      :class="{ 'text-margin': textMargin }"
+    >
       <input
         v-if="showInput"
         ref="textFieldRef"
@@ -242,6 +249,10 @@ export default defineComponent({
     .j-text-field-control-wrapper {
       min-height: 30px;
     }
+  }
+
+  .j-text-field-control-wrapper.text-margin {
+    margin-left: map-get($j-text-field, text-margin);
   }
 }
 

@@ -1,10 +1,10 @@
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue';
 import { Project } from '@/interfaces/Project.interfcace';
-import { Issue } from '@/interfaces/Issue.interface';
+import { PreviewIssue } from '@/interfaces/Issue.interface';
 import AvatarsGroup from '@/components/group/AvatarsGroup';
-import IssueDetails from '@/components/shared/IssueDetails';
-import useIssueUtils from '@/composables/useIssueUtils';
+import IssueDetails from '@/components/issue-parts/IssueDetails';
+import useIssueUtils from '@/composables/utils/useIssueUtils';
 import useProjectsStore from '@/composables/store/useProjectsStore';
 
 export default defineComponent({
@@ -14,8 +14,8 @@ export default defineComponent({
     IssueDetails,
   },
   props: {
-    issue: {
-      type: Object as PropType<Issue>,
+    previewIssue: {
+      type: Object as PropType<PreviewIssue>,
       required: true,
     },
     assignedAvatars: {
@@ -25,8 +25,9 @@ export default defineComponent({
   },
   setup(props) {
     const { getProjectByKey } = useProjectsStore();
-    const project = getProjectByKey(props.issue.project) as Project;
-    const { issueAssignees } = useIssueUtils(project, props.issue);
+    const project = getProjectByKey(props.previewIssue.projectKey) as Project;
+    const { issueAssignees } = useIssueUtils(project, props.previewIssue);
+    // TODO: add setter/getter
     const issueDialogModel = ref<boolean>(false);
 
     const setDialogModel = (model: boolean): void => {
@@ -44,20 +45,16 @@ export default defineComponent({
 </script>
 
 <template>
-  <JDialog
-    v-if="issue.deleted !== true"
-    v-model="issueDialogModel"
-  >
+  <JDialog v-model="issueDialogModel">
     <template #activator="slotProps">
       <JListItem
         v-ripple
         v-bind="slotProps"
-        tabindex="0"
-        v-if="issue"
+        v-if="previewIssue"
         class="short-issue-item mb-2"
       >
         <JIcon
-          :icon="issue.type"
+          :icon="previewIssue.type"
           container-size
           icon-wrapper
           size="20px"
@@ -65,14 +62,14 @@ export default defineComponent({
         />
         <div class="issue-info ml-4">
           <span class="issue-name">
-            {{ issue.name }}
+            {{ previewIssue.name }}
           </span>
           <span>
             <span class="issue-key">
-              {{ issue.key }}
+              {{ previewIssue.key }}
             </span>
             <span class="issue-label text-body-4 ml-2">
-              {{ issue.project }}
+              {{ previewIssue.projectName }}
             </span>
           </span>
         </div>
@@ -87,7 +84,7 @@ export default defineComponent({
     </template>
 
     <IssueDetails
-      :issue="issue"
+      :id="previewIssue.id"
       :project="project"
       @close="setDialogModel(false)"
     />

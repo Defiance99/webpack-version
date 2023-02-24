@@ -1,5 +1,6 @@
 span.ui-ripple-container {
   position: absolute;
+  z-index: 0;
   top: 0;
   right: 0;
   bottom: 0;
@@ -8,7 +9,6 @@ span.ui-ripple-container {
   height: 100%;
   overflow: hidden;
   pointer-events: none;
-  z-index: 0;
 }
 
 span.ui-ripple-effect {

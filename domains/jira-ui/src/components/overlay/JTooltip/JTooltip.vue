@@ -158,9 +158,9 @@ export default defineComponent({
 .j-tooltip-overlay {
   display: flex;
   position: absolute;
+  z-index: 1000;
   max-width: 100%;
   max-height: 100%;
-  z-index: 1000;
   box-sizing: border-box;
   transition: 100ms ease;
 }

@@ -2,7 +2,7 @@
 import { RouterView } from 'vue-router';
 import useAuth from '@/composables/useAuth';
 import useUserStore from '@/composables/store/useUserStore';
-import useFetchProjects from '@/composables/useFetchProjects';
+import useFetchProjects from '@/composables/api/useFetchProjects';
 import useTheme from 'UI/utils/useTheme';
 
 const { initTheme } = useTheme();

@@ -35,7 +35,7 @@ export default defineComponent({
       class="skeleton-projects-list"
     >
       <JSkeleton
-        v-for="(_, index) in 6"
+        v-for="(_, index) in 4"
         :key="index"
         height="134px"
         width="100%"
@@ -61,5 +61,6 @@ export default defineComponent({
   margin-right: 8px;
   margin-bottom: 8px;
   max-width: 244px;
+  border-radius: 3px;
 }
 </style>

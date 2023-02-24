@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ShortInfoIssue from '@/components/task/ShortInfoIssue';
 import SearchResultNotFound from '@/modules/search/components/SearchResultNotFound';
-import useSearchUtils from '@/composables/useSearchUtils';
+import ShortInfoIssue from '@/components/task/ShortInfoIssue';
+import useSearch from '@/composables/useSearch';
 
 export default defineComponent({
   name: 'SearchByApp',
@@ -23,7 +23,7 @@ export default defineComponent({
       getSearchValue,
       searchResultList,
       isLoadingSearchResult,
-    } = useSearchUtils();
+    } = useSearch();
 
     return {
       getSearchValue,
@@ -60,11 +60,11 @@ export default defineComponent({
     </div>
 
     <div class="search-result-wrapper">
-      <template v-if="searchResultList.length">
+      <template v-if="isLoadingSearchResult === false && searchResultList.length">
         <ShortInfoIssue
           v-for="(issue, index) in searchResultList"
           :key="index"
-          :issue="issue"
+          :preview-issue="issue"
         />
       </template>
       <SearchResultNotFound

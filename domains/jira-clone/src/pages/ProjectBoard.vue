@@ -1,12 +1,16 @@
 <script lang="ts">
 import {
-  defineComponent, onMounted, onUnmounted, ref,
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  ref,
 } from 'vue';
-import AppBreadcrumbs from '@/components/AppBreadcrumbs';
+import AppBreadcrumbs from '@/components/shared/AppBreadcrumbs';
 import PageTitle from '@/components/title/PageTitle';
-import ProjectPageContainer from '@/components/ProjectPageContainer';
+import ProjectPageContainer from '@/components/shared/ProjectPageContainer';
 import ProjectBoardFilter from '@/modules/project-board/components/ProjectBoardFilter';
 import ProjectBoardColumns from '@/modules/project-board/components/ProjectBoardColumns';
+import useProjectBoardStore from '@/composables/store/useProjectBoardStore';
 
 export default defineComponent({
   components: {
@@ -17,6 +21,7 @@ export default defineComponent({
     ProjectBoardColumns,
   },
   setup() {
+    const { initProjectBoard, isLoad, getProjectBoard } = useProjectBoardStore();
     const boardColumnsHeight = ref<number | null>(null);
 
     const setBoardHeaderHeight = async (): Promise<void> => {
@@ -24,7 +29,7 @@ export default defineComponent({
 
       if (boardPage === null) return;
 
-      const boardHeaderElement: HTMLDivElement | null = boardPage.querySelector('.project-board-header');
+      const boardHeaderElement: HTMLDivElement | null = boardPage.querySelector('.project-board-page-header');
 
       if (boardHeaderElement === null) return;
 
@@ -40,7 +45,11 @@ export default defineComponent({
       window.removeEventListener('resize', setBoardHeaderHeight);
     });
 
+    initProjectBoard();
+
     return {
+      isLoad,
+      getProjectBoard,
       boardColumnsHeight,
     };
   },
@@ -49,7 +58,7 @@ export default defineComponent({
 
 <template>
   <ProjectPageContainer class="project-board-page">
-    <div class="project-board-header pt-7 pb-7">
+    <div class="project-board-page-header pt-7 pb-7">
       <AppBreadcrumbs :top-margin="false" />
 
       <PageTitle> Board </PageTitle>
@@ -57,6 +66,10 @@ export default defineComponent({
       <ProjectBoardFilter />
     </div>
 
-    <ProjectBoardColumns :height="boardColumnsHeight" />
+    <ProjectBoardColumns
+      :board="getProjectBoard"
+      :height="boardColumnsHeight ?? 0"
+      :is-load="isLoad"
+    />
   </ProjectPageContainer>
 </template>

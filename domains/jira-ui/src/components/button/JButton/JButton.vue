@@ -110,8 +110,8 @@ export default defineComponent({
     }
 
     .j-button-label {
-      color: var(--j-primary-text-color);
       z-index: 0;
+      color: var(--j-primary-text-color);
     }
 
     .j-button-bg {
@@ -141,8 +141,8 @@ export default defineComponent({
     }
 
     .j-button-label {
-      color: var(--j-primary-text-color);
       z-index: 0;
+      color: var(--j-primary-text-color);
     }
 
     .j-button-bg {

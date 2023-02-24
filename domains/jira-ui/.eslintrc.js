@@ -33,6 +33,8 @@ module.exports = {
       },
     ],
     "arrow-body-style": ["off"],
+    "no-shadow": "off",
+    "no-continue": "off",
   },
   overrides: [
     {

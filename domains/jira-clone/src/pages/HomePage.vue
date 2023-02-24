@@ -1,11 +1,19 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { RecentIssues } from '@/modules/home/interfaces/RecentIssues';
-import useFetchRecentIssues from '@/modules/home/composables/useFetchRecentIssues';
+import { defineComponent, computed, reactive } from 'vue';
+import { Issue, PreviewIssue } from '@/interfaces/Issue.interface';
+import { TabsIssues } from '@/modules/home/interfaces/TabsIssues';
 import HomeProjectsSection from '@/modules/home/components/HomeProjectsSection';
 import HomeIssueSection from '@/modules/home/components/HomeIssueSection';
 import useIssuesStore from '@/composables/store/useIssuesStore';
-import useLoaderUtils from '@/composables/useLoaderUtils';
+import useLoaderUtils from '@/composables/utils/useLoaderUtils';
+import useIssueUtils from '@/composables/utils/useIssueUtils';
+import useFetchIssues from '@/composables/api/useFetchIssues';
+
+interface TabsIssuesIds {
+  workedon: number[];
+  toDo: number[];
+  viewed: number[];
+}
 
 export default defineComponent({
   name: 'HomePage',
@@ -14,31 +22,58 @@ export default defineComponent({
     HomeIssueSection,
   },
   setup() {
-    const { fetchRecentIssues } = useFetchRecentIssues();
-    const { mergeIssues } = useIssuesStore();
+    const { fetchTabsIssues } = useFetchIssues();
     const { isLoad, startLoad, stopLoad } = useLoaderUtils();
-    // TODO: add optimization, remove ref
-    const recentIssues = ref<RecentIssues>();
+    const tabsIssuesIds = reactive<TabsIssuesIds>({
+      workedon: [],
+      toDo: [],
+      viewed: [],
+    });
+    const { transformIssuesToIdsArray } = useIssueUtils();
+    const { mergeIssues, getIssues } = useIssuesStore();
 
-    const initRecentIssues = async () => {
+    const initTabsIssues = async () => {
       startLoad();
-      const issues: RecentIssues | null | undefined = await fetchRecentIssues();
+      const tabsIssuesRes: TabsIssues | null | undefined = await fetchTabsIssues();
 
-      if (issues) {
-        recentIssues.value = issues;
+      if (tabsIssuesRes) {
+        tabsIssuesIds.workedon = transformIssuesToIdsArray(tabsIssuesRes.workedon);
+        tabsIssuesIds.toDo = transformIssuesToIdsArray(tabsIssuesRes.toDo);
+        tabsIssuesIds.viewed = transformIssuesToIdsArray(tabsIssuesRes.viewed);
 
-        mergeIssues(recentIssues.value.recentInProgress);
-        mergeIssues(recentIssues.value.toDo);
-        mergeIssues(recentIssues.value.viewed);
+        mergeIssues(tabsIssuesRes.workedon);
+        mergeIssues(tabsIssuesRes.toDo);
+        mergeIssues(tabsIssuesRes.viewed);
       }
       stopLoad();
     };
 
-    initRecentIssues();
+    initTabsIssues();
+
+    const getTabsIssues = computed(() => {
+      const newTabsIssuesIds: TabsIssues = {
+        workedon: [],
+        toDo: [],
+        viewed: [],
+      };
+
+      if (tabsIssuesIds.workedon.length === 0 && tabsIssuesIds.toDo.length === 0 && tabsIssuesIds.viewed.length === 0) {
+        return newTabsIssuesIds;
+      }
+
+      getIssues.value.forEach((issue: Issue | PreviewIssue) => {
+        if ('isPreview' in issue === false) return;
+        if (tabsIssuesIds.workedon.includes(issue.id)) newTabsIssuesIds.workedon.push(issue as PreviewIssue);
+        if (tabsIssuesIds.toDo.includes(issue.id)) newTabsIssuesIds.toDo.push(issue as PreviewIssue);
+        if (tabsIssuesIds.viewed.includes(issue.id)) newTabsIssuesIds.viewed.push(issue as PreviewIssue);
+      });
+
+      return newTabsIssuesIds;
+    });
 
     return {
       isLoad,
-      recentIssues,
+      getTabsIssues,
     };
   },
 });
@@ -50,7 +85,12 @@ export default defineComponent({
   </JContainer>
   <JContainer class="pt-5 home-page-content">
     <HomeProjectsSection class="mb-7" />
-    <HomeIssueSection :issues="recentIssues" :loading="isLoad" />
+    <HomeIssueSection
+      :workedon="getTabsIssues.workedon"
+      :toDo="getTabsIssues.toDo"
+      :viewed="getTabsIssues.viewed"
+      :loading="isLoad"
+    />
   </JContainer>
 </template>
 

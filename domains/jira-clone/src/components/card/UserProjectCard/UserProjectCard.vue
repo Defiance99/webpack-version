@@ -14,7 +14,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <router-link :to="`/project/${project.id}/board`" class="user-project-card">
+  <router-link :to="`/project/${project.key}/board`" class="user-project-card">
     <div>
       <div class="project-name-block mb-3">
         <span class="project-icon-wrapper">

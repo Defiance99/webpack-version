@@ -66,9 +66,9 @@ export default defineComponent({
 <style scoped lang="scss">
 .j-drawer-container {
   position: fixed;
+  z-index: 1000;
   top: 0;
   bottom: 0;
-  z-index: 1000;
   padding: 24px;
   min-width: 200px;
   overflow-y: auto;

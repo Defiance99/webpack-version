@@ -1,11 +1,11 @@
-import apiClient from '@/composables/apiClient';
+import apiClient from '@/services/apiClient';
 import ApiClient from '@/interfaces/ApiClient.interface';
-import { Issue } from '@/interfaces/Issue.interface';
+import { IssueComment } from '@/interfaces/Issue.interface';
 
 const baseCommentsPath = '/comments';
 
 export default {
-  async createComment(issueId: number, commentHtml: string): Promise<ApiClient<Issue>> {
+  async createComment(issueId: number, commentHtml: string): Promise<ApiClient<IssueComment>> {
     const payload = {
       id: issueId,
       comment: commentHtml,

@@ -1,10 +1,14 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import FormControlActions from '@/components/form/FormControlActions';
 
 const onSaveEmitName = 'update:modelValue';
 
 export default defineComponent({
   name: 'IssueTitle',
+  components: {
+    FormControlActions,
+  },
   props: {
     title: {
       type: String,
@@ -12,7 +16,7 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const issueTitleModel = ref<string>(props.title);
+    const issueEditorModel = ref<string>(props.title);
     const isShowTitleEditor = ref<boolean>(false);
     const titleRef = ref<HTMLHeadingElement | null>(null);
 
@@ -24,19 +28,26 @@ export default defineComponent({
       setTitleEditorDisplay(true);
     };
 
+    const onCancelTitleEditor = (): void => {
+      issueEditorModel.value = props.title;
+      setTitleEditorDisplay(false);
+    };
+
     const onSaveEditorValue = (): void => {
-      if (props.title !== issueTitleModel.value) {
-        emit(onSaveEmitName, issueTitleModel.value);
+      if (props.title !== issueEditorModel.value) {
+        emit(onSaveEmitName, issueEditorModel.value);
       }
+
       setTitleEditorDisplay(false);
     };
 
     return {
       titleRef,
+      issueEditorModel,
       showTitleEditor,
       isShowTitleEditor,
       onSaveEditorValue,
-      issueTitleModel,
+      onCancelTitleEditor,
     };
   },
 });
@@ -53,17 +64,27 @@ export default defineComponent({
       ref="titleRef"
       class="issue-title"
     >
-      {{ issueTitleModel }}
+      {{ title }}
     </h1>
   </div>
   <JTextarea
     v-if="isShowTitleEditor"
-    v-model="issueTitleModel"
-    v-closable="{ handler: onSaveEditorValue, exclude: titleRef }"
+    v-model="issueEditorModel"
+    v-closable="{ handler: onCancelTitleEditor, exclude: titleRef }"
     auto-focus
     rows="1"
     class="editor"
   />
+  <FormControlActions
+    v-if="isShowTitleEditor"
+    direction-reverse
+    class="mt-2"
+    @click:cancel="onCancelTitleEditor"
+    @click:confirm="onSaveEditorValue "
+  >
+    <template #cancel> Cancel </template>
+    <template #confirm> Save </template>
+  </FormControlActions>
 </template>
 
 <style lang="scss" scoped>

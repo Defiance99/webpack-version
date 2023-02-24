@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { IssueComment } from '@/interfaces/Issue.interface';
-import IssueEditor from '@/components/shared/IssueEditor';
+import IssueEditor from '@/components/issue-parts/IssueEditor';
 import useUserStore from '@/composables/store/useUserStore';
 
 const onSaveCommentEmitName = 'save' as string;

@@ -1,12 +1,88 @@
+const projectsBoards = [
+  {
+    id: 1,
+    columns: [
+      {
+        id: 0,
+        name: 'Backlog',
+        issues: [
+          {
+            id: 1,
+            order: 1,
+          },
+          {
+            id: 2,
+            order: 2,
+          },
+          {
+            id: 3,
+            order: 3,
+          },
+          {
+            id: 4,
+            order: 4,
+          },
+        ],
+      },
+      {
+        id: 1,
+        name: 'In progress',
+        issues: [
+          {
+            id: 5,
+            order: 1,
+          },
+          {
+            id: 6,
+            order: 2,
+          },
+          {
+            id: 7,
+            order: 3,
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Code review',
+        issues: [
+          {
+            id: 8,
+            order: 1,
+          },
+        ],
+      },
+      {
+        id: 3,
+        name: 'Testing',
+        issues: [
+          {
+            id: 9,
+            order: 1,
+          },
+        ],
+      },
+      {
+        id: 4,
+        name: 'Done',
+        issues: [],
+      },
+    ],
+  },
+];
+
 /* eslint-disable */
 const issuesData = [
   {
     id: 1,
     project: 'MP-1',
     name: 'Jira clone smth bug 1',
+    // TODO: change status from string name to id number
     status: 'Backlog',
     type: 'task',
     key: 'MP-104',
+    isDetails: true,
+    // TODO: put out comment of other entity
     comments: [
       {
         id: 1,
@@ -30,6 +106,7 @@ const issuesData = [
     status: 'In progress',
     type: 'bug',
     key: 'MP-234',
+    isDetails: true,
     comments: [],
     priority: 'high',
     description: 'Helloy wolrder',
@@ -45,6 +122,7 @@ const issuesData = [
     status: 'Code review',
     type: 'story',
     key: 'MP-22',
+    isDetails: true,
     comments: [],
     priority: 'high',
     description: 'Helloy wolrder',
@@ -60,6 +138,7 @@ const issuesData = [
     status: 'Testing',
     type: 'task',
     key: 'MP-521',
+    isDetails: true,
     comments: [],
     priority: 'high',
     description: 'Helloy wolrder',
@@ -75,6 +154,7 @@ const issuesData = [
     status: 'Done',
     type: 'task',
     key: 'MP-35',
+    isDetails: true,
     comments: [],
     priority: 'high',
     description: 'Helloy wolrder',
@@ -90,6 +170,7 @@ const issuesData = [
     status: 'Backlog',
     type: 'task',
     key: 'MP-104',
+    isDetails: true,
     comments: [],
     priority: 'high',
     description: 'Helloy wolrder',
@@ -105,8 +186,9 @@ const issuesData = [
     status: 'Done',
     type: 'bug',
     key: 'MP-234',
+    isDetails: true,
     comments: [],
-    priority: 'high',
+    priority: 'lowest',
     description: 'Helloy wolrder',
     assignees: [1, 4],
     reporters: [1],
@@ -120,9 +202,26 @@ const issuesData = [
     status: 'In progress',
     type: 'bug',
     key: 'MP-234',
+    isDetails: true,
     comments: [],
-    priority: 'high',
+    priority: 'low',
     description: 'Helloy wolrder',
+    assignees: [1, 3],
+    reporters: [1],
+    created: '28, 2022, 22:41:4',
+    updated: '28, 2022, 22:41:4',
+  },
+  {
+    id: 9,
+    project: 'MP-1',
+    name: 'I am helloy world',
+    status: 'In progress',
+    type: 'bug',
+    key: 'MP-235',
+    isDetails: true,
+    comments: [],
+    priority: 'low',
+    description: 'Helloy wolrder 2',
     assignees: [1, 3],
     reporters: [1],
     created: '28, 2022, 22:41:4',
@@ -142,7 +241,9 @@ const projectsData = [
     totalCompleteIssues: 0,
     priorities: ['highest', 'high', 'medium', 'low', 'lowest'],
     issues: [1, 2, 3, 4, 5, 6, 7, 8],
+    // TODO: remove statuses property
     statuses: ['Backlog', 'In progress', 'Code review', 'Testing', 'Done'],
+    board: 1,
   },
 ];
 
@@ -185,4 +286,4 @@ const recentIssuesData = {
   viewed: [1, 3, 5, 7, 8],
 };
 
-export { usersData, projectsData, issuesData, recentIssuesData };
+export { usersData, projectsData, issuesData, recentIssuesData, projectsBoards };

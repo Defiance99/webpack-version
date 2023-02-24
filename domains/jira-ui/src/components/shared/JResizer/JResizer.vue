@@ -114,11 +114,11 @@ $hover-transition: 250ms;
 .app-resizer {
   display: flex;
   position: absolute;
+  z-index: 1;
   top: 0;
   right: calc(var(--resizer-width) * -1);
   bottom: 0;
   width: var(--resizer-width);
-  z-index: 1;
   cursor: ew-resize;
 
   &:hover {
@@ -163,11 +163,11 @@ $hover-transition: 250ms;
   justify-content: center;
   align-items: center;
   position: relative;
+  z-index: 1;
   top: 18px;
   right: 19px;
   width: 44px;
   height: 40px;
-  z-index: 1;
   transition: $hover-transition;
 }
 

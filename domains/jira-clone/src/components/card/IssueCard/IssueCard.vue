@@ -1,24 +1,33 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
-import IssueType from '@/components/shared/IssueType';
+import { defineComponent, PropType } from 'vue';
+import { Issue } from '@/interfaces/Issue.interface';
+import { Project } from '@/interfaces/Project.interfcace';
+import IssueType from '@/components/issue-parts/IssueType';
+import AvatarsGroup from '@/components/group/AvatarsGroup';
+import useIssueUtils from '@/composables/utils/useIssueUtils';
 
 export default defineComponent({
   name: 'IssueCard',
   components: {
     IssueType,
+    AvatarsGroup,
   },
   props: {
     issue: {
-      type: Object,
-      default: () => ({
-        name: 'When creating an issue, the assignee list is not working properly on searching ',
-        assignees: // eslint-disable-next-line max-len
-        'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/60ade11f54ac21007240527f/244e51a6-01e2-4617-ac9c-2756b03f2586/48',
-        id: 'MP-173',
-        type: 'bug',
-        priority: 'story',
-      }),
+      type: Object as PropType<Issue>,
+      required: true,
     },
+    project: {
+      type: Object as PropType<Project>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const { issueAssignees } = useIssueUtils(props.project, props.issue);
+
+    return {
+      issueAssignees,
+    };
   },
 });
 </script>
@@ -46,16 +55,13 @@ export default defineComponent({
         class="ml-1"
       />
     </div>
-    <div class="issue-card-info">
-      <JAvatar size="xs">
-        <img
-          :src="issue.assignees"
-          alt="assigner lgoo"
-        >
-      </JAvatar>
+    <div class="issue-card-info issue-card-info-bottom">
       <IssueType
-        :id="issue.id"
-        :type="false"
+        :issue-value="issue.key"
+      />
+      <AvatarsGroup
+        size="xs"
+        :users="issueAssignees"
       />
     </div>
   </div>
@@ -69,8 +75,7 @@ export default defineComponent({
   box-shadow: #091e4240 0 1px 2px;
   cursor: grab;
   background-color: #fff;
-  transition-duration: 100ms;
-  transition-timing-function: cubic-bezier(.4,0,.2,1);
+  transition: background-color 100ms cubic-bezier(.4,0,.2,1), top 400ms, left 400ms;
 
   &:hover {
     background-color: #ebecf0;
@@ -85,6 +90,10 @@ export default defineComponent({
   display: flex;
   align-items: center;
   margin-top: 10px;
+
+  &.issue-card-info-bottom {
+    justify-content: space-between;
+  }
 
   .j-avatar {
     justify-content: flex-start;
@@ -105,5 +114,12 @@ export default defineComponent({
   width: 3px;
   height: auto;
   background-color: var(--j-primary-color);
+}
+
+.issue-type {
+  ::v-deep(.issue-value) {
+    padding-left: 0;
+    white-space: nowrap;
+  }
 }
 </style>

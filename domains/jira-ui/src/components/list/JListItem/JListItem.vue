@@ -37,7 +37,6 @@ export default defineComponent({
   padding: 0 16px;
   min-height: 48px;
   letter-spacing: normal;
-  outline: none;
   text-decoration: none;
   transition-duration: .2s;
   transition-timing-function: cubic-bezier(.4,0,.2,1);

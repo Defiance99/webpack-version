@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, PropType, toRefs } from 'vue';
 import { Project } from '@/interfaces/Project.interfcace';
-import useIssueUtils from '@/composables/useIssueUtils';
+import useIssueUtils from '@/composables/utils/useIssueUtils';
 
 const onSelectUserEmitName = 'select' as string;
 

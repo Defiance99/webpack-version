@@ -81,14 +81,14 @@ $avatar-offset: 0.25rem;
     cursor: pointer;
 
     &:hover {
-      bottom: 3px;
       z-index: 5;
+      bottom: 3px;
     }
 
     &.selected {
+      z-index: 5;
       box-shadow: 0 0 0 1px #1255b9;
       border-radius: 50%;
-      z-index: 5;
     }
   }
 

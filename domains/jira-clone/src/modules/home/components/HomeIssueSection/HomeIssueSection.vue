@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, PropType } from 'vue';
-import type { RecentIssues } from '@/modules/home/interfaces/RecentIssues';
+import { PreviewIssue } from '@/interfaces/Issue.interface';
 import ShortInfoIssue from '@/components/task/ShortInfoIssue';
 
 export default defineComponent({
@@ -9,8 +9,16 @@ export default defineComponent({
     ShortInfoIssue,
   },
   props: {
-    issues: {
-      type: Object as PropType<RecentIssues>,
+    workedon: {
+      type: Object as unknown as PropType<PreviewIssue[]>,
+      default: null,
+    },
+    toDo: {
+      type: Object as unknown as PropType<PreviewIssue[]>,
+      default: null,
+    },
+    viewed: {
+      type: Object as unknown as PropType<PreviewIssue[]>,
       default: null,
     },
     loading: {
@@ -45,9 +53,9 @@ export default defineComponent({
           Last monthly
         </h3>
         <ShortInfoIssue
-          v-for="(issue, index) in issues.recentInProgress"
+          v-for="(issue, index) in workedon"
           :key="index"
-          :issue="issue"
+          :preview-issue="issue"
           assigned-avatars
         />
       </JTabBodyItem>
@@ -56,9 +64,9 @@ export default defineComponent({
           Last weekly
         </h3>
         <ShortInfoIssue
-          v-for="(issue, index) in issues.viewed"
+          v-for="(issue, index) in viewed"
           :key="index"
-          :issue="issue"
+          :preview-issue="issue"
           assigned-avatars
         />
       </JTabBodyItem>
@@ -67,9 +75,9 @@ export default defineComponent({
           Last weekly
         </h3>
         <ShortInfoIssue
-          v-for="(issue, index) in issues.toDo"
+          v-for="(issue, index) in toDo"
           :key="index"
-          :issue="issue"
+          :preview-issue="issue"
           assigned-avatars
         />
       </JTabBodyItem>

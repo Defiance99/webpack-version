@@ -2,7 +2,7 @@
 import { defineComponent } from 'vue';
 
 const onClickCancelEmitName = 'click:cancel';
-const onClickCreateEmitName = 'click:create';
+const onClickConfirmEmitName = 'click:confirm';
 
 export default defineComponent({
   name: 'FormControlActions',
@@ -23,7 +23,7 @@ export default defineComponent({
   setup() {
     return {
       onClickCancelEmitName,
-      onClickCreateEmitName,
+      onClickConfirmEmitName,
     };
   },
 });
@@ -43,8 +43,8 @@ export default defineComponent({
     </JButton>
 
     <JButton
-      class="create-button"
-      @click="$emit(onClickCreateEmitName)"
+      class="confirm-button"
+      @click="$emit(onClickConfirmEmitName)"
     >
       <JSpinner
         v-if="isLoad"
@@ -52,7 +52,7 @@ export default defineComponent({
         height="20px"
       />
       <template v-else>
-        <slot name="create" />
+        <slot name="confirm" />
       </template>
     </JButton>
   </div>
@@ -67,7 +67,7 @@ export default defineComponent({
   }
 
   &.reverse {
-    .create-button {
+    .confirm-button {
       margin-left: 0;
     }
 
@@ -77,7 +77,7 @@ export default defineComponent({
     }
   }
 
-  .create-button {
+  .confirm-button {
     margin-left: 8px;
     min-width: 70px;
   }

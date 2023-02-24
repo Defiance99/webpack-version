@@ -1,8 +1,8 @@
-import { shallowRef } from 'vue';
-import { Issue } from '@/interfaces/Issue.interface';
+import { shallowRef, ref } from 'vue';
+import { Issue, PreviewIssue, PatchIssuePayload } from '@/interfaces/Issue.interface';
 import { IssueTypes } from '@/types/IssueTypes';
 
-const issuesData = shallowRef<Issue[]>([]);
+const issuesData = ref<(Issue | PreviewIssue)[]>([]);
 // TODO: add to dynamic
 const issueTypesData = shallowRef<IssueTypes[]>(['task', 'bug', 'story']);
 
@@ -13,11 +13,20 @@ export default () => {
     return issues;
   };
 
-  const setNewIssue = (newIssue: Issue): Issue => {
-    const oldIssue = issuesData.value?.find((issue) => issue.id === newIssue.id);
+  const updateIssue = (id: number, newProperties: PatchIssuePayload): Issue | PreviewIssue | null => {
+    const updatableIssue = issuesData.value.find((issue: Issue | PreviewIssue) => issue.id === id);
+    if (updatableIssue === undefined) return null;
+
+    return Object.assign(updatableIssue, newProperties);
+  };
+
+  const setNewIssue = (newIssue: Issue | PreviewIssue): Issue | PreviewIssue => {
+    const oldIssue = issuesData.value.find((issue: Issue | PreviewIssue) => issue.id === newIssue.id);
 
     if (oldIssue) {
-      return Object.assign(oldIssue, newIssue);
+      const assignedIssue = Object.assign(oldIssue, newIssue);
+
+      return assignedIssue;
     }
 
     issuesData.value.push(newIssue);
@@ -25,33 +34,43 @@ export default () => {
     return newIssue;
   };
 
-  const mergeIssues = (mergingIssues: Issue[]): Issue[] => {
-    mergingIssues.forEach((mergingIssue: Issue): void => {
+  const mergeIssues = (mergingIssues: (Issue | PreviewIssue)[]): (Issue | PreviewIssue)[] => {
+    mergingIssues.forEach((mergingIssue: Issue | PreviewIssue): void => {
       setNewIssue(mergingIssue);
     });
 
-    return issuesData.value;
+    return mergingIssues;
   };
 
-  const getIssueById = (issueKey: string): Issue | undefined => {
-    return issuesData.value.find((issue) => issue.key === issueKey);
+  const getIssueById = (issueKey: string): Issue | PreviewIssue | undefined => {
+    return issuesData.value.find((issue: Issue | PreviewIssue) => issue.key === issueKey);
   };
 
   const deleteIssue = (issueId: number): void => {
-    const removingIssue = issuesData.value.find((issue: Issue) => issue.id === issueId);
+    const removingIssue = issuesData.value.findIndex((issue: Issue | PreviewIssue) => issue.id === issueId);
 
-    if (removingIssue) {
-      setNewIssue({ ...removingIssue, deleted: true });
+    if (removingIssue !== undefined) {
+      issuesData.value.splice(removingIssue, 1);
     }
   };
 
+  const filterActualIssues = (issues: Issue[]): Issue[] => {
+    return issues.filter((issue: Issue) => {
+      return issuesData.value.some((issueInStore: Issue | PreviewIssue) => {
+        return 'project' in issueInStore && issueInStore.id === issue.id && issueInStore.project === issue.project;
+      });
+    });
+  };
+
   return {
-    setIssues,
-    mergeIssues,
-    getIssues: issuesData,
-    setNewIssue,
-    getIssueById,
+    updateIssue,
     deleteIssue,
+    mergeIssues,
+    setIssues,
+    setNewIssue,
+    getIssues: issuesData,
+    getIssueById,
     getIssueTypes: issueTypesData,
+    filterActualIssues,
   };
 };

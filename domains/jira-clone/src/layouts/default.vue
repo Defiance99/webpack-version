@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import TheHeader from '@/components/TheHeader';
+import TheHeader from '@/components/shared/TheHeader';
 import SearchByApp from '@/modules/search/components/SearchByApp';
 
 export default defineComponent({

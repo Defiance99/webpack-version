@@ -28,6 +28,7 @@ module.exports = defineConfig({
           './utils/useTheme': './src/composables/utils/useTheme',
           './utils/useThrottle': './src/composables/utils/useThrottle',
           './utils/useDebounce': './src/composables/utils/useDebounce',
+          './utils/useComputedEager': './src/composables/utils/useComputedEager',
         },
         shared: {
           vue: {

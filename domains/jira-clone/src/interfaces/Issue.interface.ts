@@ -4,7 +4,7 @@ import { PriorityTypes } from '@/types/PriorityTypes';
 interface IssueComment {
   id: number;
   userId: number;
-  author: number;
+  author: string;
   html: string;
   created: string;
   updated: string;
@@ -19,35 +19,48 @@ interface BaseIssue {
   description: string;
   priority: PriorityTypes;
   type: IssueTypes;
-  deleted?: boolean;
+}
+
+interface PreviewIssue {
+  id: number;
+  name: string;
+  assignees: number[];
+  projectName: string;
+  projectKey: string;
+  isPreview: true;
+  key: string;
+  type: IssueTypes;
 }
 
 interface Issue extends BaseIssue {
   id: number;
   key: string;
+  isDetails: true;
   created: string;
   updated: string;
   comments: IssueComment[];
 }
 
-interface UpdateIssue {
-  id: number;
+interface PatchIssuePayload {
+  id?: number;
   name?: string;
   description?: string;
   status?: string;
   reporters?: number[];
   assignees?: number[];
   priority?: PriorityTypes;
+  updated?: string;
+  comments?: IssueComment[];
 }
 
 interface CreateIssue {
   projectKey: string | undefined;
   userId: number | undefined;
-  issueType: IssueTypes,
-  reporters: number[],
-  assignees: number[],
-  title: string,
-  description: string,
+  issueType: IssueTypes;
+  reporters: number[];
+  assignees: number[];
+  title: string;
+  description: string;
 }
 
 interface IssueSearchParams {
@@ -55,4 +68,4 @@ interface IssueSearchParams {
   users?: number[];
 }
 
-export { Issue, IssueComment, CreateIssue, UpdateIssue, IssueSearchParams };
+export { Issue, IssueComment, CreateIssue, PatchIssuePayload, IssueSearchParams, PreviewIssue };

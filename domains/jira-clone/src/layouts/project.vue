@@ -1,13 +1,35 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onUnmounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
 import DefaultLayout from '@/layouts/default.vue';
-import ProjectSidebar from '@/components/ProjectSidebar';
+import ProjectSidebar from '@/components/shared/ProjectSidebar';
+import useProjectsStore from '@/composables/store/useProjectsStore';
 
 export default defineComponent({
   name: 'ProjectLayout',
   components: {
     DefaultLayout,
     ProjectSidebar,
+  },
+  setup() {
+    const route = useRoute();
+    const { getProjects, getProjectByKey, setCurrentProjectPage } = useProjectsStore();
+
+    const projectKey = route.params.project;
+
+    watch(
+      () => getProjects.value,
+      (newProjects) => {
+        if (projectKey && newProjects) {
+          setCurrentProjectPage(getProjectByKey(projectKey as string) ?? null);
+        }
+      },
+      { immediate: true },
+    );
+
+    onUnmounted(() => {
+      setCurrentProjectPage(null);
+    });
   },
 });
 </script>

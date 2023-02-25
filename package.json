@@ -2,18 +2,27 @@
   "name": "jira-starter",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run ui\" \"npm run wysiwyg\" \"npm run jira-clone\" ",
-    "jira-clone": "cd ./domains/jira-clone && npm run dev",
-    "ui": "cd ./domains/jira-ui && npm run dev",
-    "wysiwyg": "cd ./domains/wysiwyg && npm run dev",
-    "build": "yarn workspaces run build",
-    "serve": "wsrun --parallel serve"
+    "dev": "concurrently \"npm run dev:ui\" \"npm run dev:wysiwyg\" \"npm run dev:jira-clone\" ",
+    "dev:jira-clone": "cd ./domains/jira-clone && npm run dev",
+    "dev:ui": "cd ./domains/jira-ui && npm run dev",
+    "dev:wysiwyg": "cd ./domains/wysiwyg && npm run dev",
+    "build": "concurrently \"npm run build:ui\" \"npm run build:wysiwyg\" \"npm run build:jira-clone\"",
+    "build:jira-clone": "cd ./domains/jira-clone && npm run build",
+    "build:ui": "cd ./domains/jira-ui && npm run build",
+    "build:wysiwyg": "cd ./domains/wysiwyg && npm run build",
+    "start": "concurrently \"npm run start:ui\" \"npm run start:wysiwyg\" \"npm run start:jira-clone\"",
+    "start:jira-clone": "cd ./domains/jira-clone && serve -s dist -p 8080",
+    "start:ui": "cd ./domains/jira-ui && serve -s dist -p 3001",
+    "start:wysiwyg": "cd ./domains/wysiwyg && serve -s dist -p 3002"
   },
   "workspaces": [
     "jira-clone/*",
     "jira-ui/*",
     "wisywig/*"
   ],
+  "dependencies": {
+    "serve": "^14.2.0"
+  },
   "devDependencies": {
     "concurrently": "^7.6.0"
   }

@@ -13,8 +13,8 @@ module.exports = defineConfig({
   transpileDependencies: true,
   publicPath:
     process.env.NODE_ENV === "production"
-      ? "http://localhost:3001/"
-      : "https://vue-jira-ui.onrender.com/",
+      ? "https://vue-jira-ui.onrender.com/"
+      : "http://localhost:3001/",
   configureWebpack: {
     optimization: {
       splitChunks: false,

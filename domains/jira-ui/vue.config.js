@@ -1,6 +1,6 @@
-const path = require("path");
-const { defineConfig } = require("@vue/cli-service");
-const { ModuleFederationPlugin } = require("webpack").container;
+const path = require('path');
+const { defineConfig } = require('@vue/cli-service');
+const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = defineConfig({
   css: {
@@ -11,27 +11,24 @@ module.exports = defineConfig({
     },
   },
   transpileDependencies: true,
-  publicPath:
-    process.env.NODE_ENV === "production"
-      ? "https://vue-jira-ui.onrender.com/"
-      : "http://localhost:3001/",
+  publicPath: 'http://localhost:3001/',
   configureWebpack: {
     optimization: {
       splitChunks: false,
     },
-    entry: path.resolve(__dirname, "./src/index.ts"),
+    entry: path.resolve(__dirname, './src/index.ts'),
     plugins: [
       new ModuleFederationPlugin({
-        name: "UI",
-        filename: "remoteEntry.js",
+        name: 'UI',
+        filename: 'remoteEntry.js',
         exposes: {
-          "./components": "./src/components",
-          "./directives/ripple": "./src/directives/ripple",
-          "./directives/clickOutside": "./src/directives/clickOutside",
-          "./utils/useTheme": "./src/composables/utils/useTheme",
-          "./utils/useThrottle": "./src/composables/utils/useThrottle",
-          "./utils/useDebounce": "./src/composables/utils/useDebounce",
-          "./utils/useComputedEager": "./src/composables/utils/useComputedEager",
+          './components': './src/components',
+          './directives/ripple': './src/directives/ripple',
+          './directives/clickOutside': './src/directives/clickOutside',
+          './utils/useTheme': './src/composables/utils/useTheme',
+          './utils/useThrottle': './src/composables/utils/useThrottle',
+          './utils/useDebounce': './src/composables/utils/useDebounce',
+          './utils/useComputedEager': './src/composables/utils/useComputedEager',
         },
         shared: {
           vue: {

@@ -11,9 +11,9 @@
     "build:ui": "cd ./domains/jira-ui && npm run build",
     "build:wysiwyg": "cd ./domains/wysiwyg && npm run build",
     "start": "concurrently \"npm run start:ui\" \"npm run start:wysiwyg\" \"npm run start:jira-clone\"",
-    "start:jira-clone": "cd ./domains/jira-clone && serve -s dist -p 8080",
-    "start:ui": "cd ./domains/jira-ui && serve -s dist -p 3001",
-    "start:wysiwyg": "cd ./domains/wysiwyg && serve -s dist -p 3002"
+    "start:jira-clone": "cd ./domains/jira-clone && serve -s dist",
+    "start:ui": "cd ./domains/jira-ui && serve -s dist",
+    "start:wysiwyg": "cd ./domains/wysiwyg && serve -s dist"
   },
   "workspaces": [
     "jira-clone/*",

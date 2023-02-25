@@ -7,7 +7,7 @@ const remoteWysiwyg = isProd ? 'https://vue-jira-wysiwyg.onrender.com/remoteEntr
 const remoteUI = isProd ? 'https://vue-jira-ui.onrender.com/remoteEntry.js' : 'http://localhost:3001/remoteEntry.js';
 
 module.exports = defineConfig({
-  publicPath: 'auto',
+  publicPath: 'https://vue-jira-clone.onrender.com',
   css: {
     loaderOptions: {
       sass: {

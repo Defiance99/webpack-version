@@ -12,6 +12,7 @@ module.exports = defineConfig({
   },
   transpileDependencies: true,
   // publicPath: 'http://localhost:3001/',
+  publicPath: 'https://vue-jira-ui.onrender.com',
   configureWebpack: {
     optimization: {
       splitChunks: false,

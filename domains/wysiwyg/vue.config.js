@@ -4,7 +4,7 @@ const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: 'http://localhost:3002/',
+  // publicPath: 'http://localhost:3002/',
   configureWebpack: {
     optimization: {
       splitChunks: false,

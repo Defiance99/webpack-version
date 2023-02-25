@@ -11,7 +11,7 @@ module.exports = defineConfig({
     },
   },
   transpileDependencies: true,
-  publicPath: 'http://localhost:3001/',
+  // publicPath: 'http://localhost:3001/',
   configureWebpack: {
     optimization: {
       splitChunks: false,

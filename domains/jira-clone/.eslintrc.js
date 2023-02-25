@@ -8,17 +8,23 @@ module.exports = {
     ecmaVersion: 2020,
   },
   rules: {
-    'linebreak-style': ['error', 'windows'],
+    'linebreak-style': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'arrow-body-style': 'off',
-    'import/no-unresolved': [0, {
-      caseSensitive: false,
-    }],
+    'import/no-unresolved': [
+      0,
+      {
+        caseSensitive: false,
+      },
+    ],
     'import/no-named-as-default': [0],
-    'import/no-extraneous-dependencies': [0, {
-      devDependencies: ['**/*.test.js', '**/*.spec.js'],
-    }],
+    'import/no-extraneous-dependencies': [
+      0,
+      {
+        devDependencies: ['**/*.test.js', '**/*.spec.js'],
+      },
+    ],
     'max-len': ['error', { code: 130 }],
     'vuejs-accessibility/label-has-for': ['off'],
     'vuejs-accessibility/aria-props': ['off'],

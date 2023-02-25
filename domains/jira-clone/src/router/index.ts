@@ -54,7 +54,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('https://vue-jira-clone.onrender.com'),
+  history: createWebHistory('/'),
   routes,
 });
 

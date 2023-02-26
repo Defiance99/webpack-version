@@ -131,9 +131,9 @@ export default defineComponent({
   </div>
   <div v-if="mFocus">
     <strong>
-      Pro tip
+      Pro tip:
     </strong>
-    : press
+    press
     <span class="comment-hot-key-tip">
       M
     </span>

@@ -27,10 +27,8 @@ export default defineComponent({
     const route = useRoute();
     const { getUser } = useUserStore();
     const projectsMenuModel = ref(false);
-    const addIssueDialogModel = ref(false);
-
     // TODO: вынести установку дайлогов в отдельный компосабл!
-
+    const addIssueDialogModel = ref(false);
     const currentPath = computed(() => route.path);
 
     const toggleSearchSidebar = (): void => {
@@ -42,7 +40,10 @@ export default defineComponent({
     };
 
     const showProjectsMenu = (): void => {
-      projectsMenuModel.value = true;
+      // TODO: disabled
+      if (false) {
+        projectsMenuModel.value = true;
+      }
     };
 
     return {
@@ -64,7 +65,7 @@ export default defineComponent({
       <router-link
         v-ripple
         to="/"
-        class="j-hover-effect j-active-effect navigation-list-item"
+        class="j-hover-effect j-active-effect logo-link"
         :class="{ active: currentPath === '/' }"
       >
         <AppLogo />
@@ -72,18 +73,17 @@ export default defineComponent({
 
       <ul class="navigation-list">
         <li class="text-body-3">
-          <router-link
+          <JSemanticButton
             v-ripple
-            to="/about"
-            class="j-hover-effect j-active-effect navigation-list-item"
+            class="j-hover-effect j-active-effect navigation-button disabled"
           >
             <span class="navigation-list-label">About project</span>
-          </router-link>
+          </JSemanticButton>
         </li>
         <li class="text-body-3">
           <JSemanticButton
             v-ripple
-            class="j-hover-effect j-active-effect navigation-list-item"
+            class="j-hover-effect j-active-effect navigation-button disabled"
           >
             <span class="navigation-list-label">Your work</span>
             <JArrowIcon />
@@ -92,7 +92,7 @@ export default defineComponent({
         <li class="text-body-3">
           <JSemanticButton
             v-ripple
-            class="j-hover-effect j-active-effect navigation-list-item"
+            class="j-hover-effect j-active-effect navigation-button disabled"
             :class="{ active: currentPath === '/projects' || projectsMenuModel }"
             @click="showProjectsMenu"
           >
@@ -120,7 +120,7 @@ export default defineComponent({
 
       <HeaderThemePickerTool />
 
-      <JAvatar class="hover-effect cursor-pointer ml-2 user-avatar">
+      <JAvatar class="hover-effect cursor-pointer ml-2 user-avatar disabled">
         <img
           :src="getUser?.image"
           alt=""
@@ -195,7 +195,8 @@ export default defineComponent({
   }
 }
 
-.navigation-list-item {
+.navigation-button.j-hover-effect,
+.logo-link {
   display: flex;
   align-items: center;
   position: relative;
@@ -210,7 +211,7 @@ export default defineComponent({
   margin-right: 5px;
 }
 
-.navigation-list-item,
+.navigation-button,
 .navigation-list,
 .create-button,
 .tool-icon-wrapper,

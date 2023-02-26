@@ -7,15 +7,16 @@ export default defineComponent({
 </script>
 
 <template>
-  <JSkeleton
-    width="100%"
-    height="42px"
-    class="issue-key-skeleton"
-  />
+  <div class="issue-title-skeleton">
+    <JSkeleton
+      width="100%"
+      height="38px"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>
-.issue-key-skeleton {
+.issue-title-skeleton {
   border-radius: 8px;
 }
 </style>

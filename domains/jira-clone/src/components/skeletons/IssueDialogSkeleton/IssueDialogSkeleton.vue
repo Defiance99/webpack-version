@@ -4,6 +4,7 @@ import IssueTitleSkeleton from '@/components/skeletons/IssueTitleSkeleton';
 import IssueSidebarSkeleton from '@/components/skeletons/IssueSidebarSkeleton';
 import IssueEditorSkeleton from '@/components/skeletons/IssueEditorSkeleton';
 import IssueKeySkeleton from '@/components/skeletons/IssueKeySkeleton';
+import IssueDialogActionsSkeleton from '@/components/skeletons/IssueDialogActionsSkeleton';
 import CommentSkeleton from '@/components/skeletons/CommentSkeleton';
 
 export default defineComponent({
@@ -13,6 +14,7 @@ export default defineComponent({
     IssueSidebarSkeleton,
     IssueEditorSkeleton,
     IssueKeySkeleton,
+    IssueDialogActionsSkeleton,
     CommentSkeleton,
   },
 });
@@ -26,7 +28,10 @@ export default defineComponent({
       <IssueEditorSkeleton class="mb-10" />
       <CommentSkeleton />
     </div>
-    <IssueSidebarSkeleton class="pt-10" />
+    <div class="issue-dialog-sidebar-skeleton">
+      <IssueDialogActionsSkeleton class="mb-4" />
+      <IssueSidebarSkeleton />
+    </div>
   </div>
 </template>
 
@@ -41,8 +46,9 @@ export default defineComponent({
   width: 100%;
 }
 
-.issue-sidebar-skeleton {
-  max-width: 300px;
-  width: 100%;
+.issue-dialog-sidebar-skeleton {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 </style>

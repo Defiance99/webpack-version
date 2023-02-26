@@ -53,8 +53,8 @@ $header-height: 56px;
   height: calc(100vh - $header-height);
   overflow: hidden;
 
-  .issue-details-content {
-    padding-right: 18px;
+  .issue-content {
+    max-width: 100%;
   }
 }
 

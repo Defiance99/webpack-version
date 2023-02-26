@@ -13,7 +13,7 @@ export default defineComponent({
         v-ripple
         v-bind="slotProps"
         aria-label="Button that shows a notifications menu"
-        class="tool-icon-wrapper j-hover-effect rounded-md cursor-pointer ml-2"
+        class="tool-icon-wrapper j-hover-effect rounded-md ml-2 disabled"
       >
         <JIcon
           icon="notification"

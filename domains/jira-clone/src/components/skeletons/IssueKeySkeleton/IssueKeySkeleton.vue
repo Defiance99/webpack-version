@@ -7,11 +7,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <JSkeleton
-    width="75px"
-    height="24px"
-    class="issue-key-skeleton"
-  />
+  <div class="issue-key-skeleton">
+    <JSkeleton
+      width="75px"
+      height="24px"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>

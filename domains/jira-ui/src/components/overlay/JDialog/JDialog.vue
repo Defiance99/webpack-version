@@ -100,6 +100,7 @@ export default defineComponent({
   padding: 24px;
   max-width: calc(100vw - 50px);
   max-height: calc(100vh - 120px);
+  overflow: auto;
   border-radius: 4px;
   box-shadow: 0 11px 15px -7px #0003, 0 24px 38px 3px #00000024, 0 9px 46px 8px #0000001f;
   background: var(--j-secondary-color);

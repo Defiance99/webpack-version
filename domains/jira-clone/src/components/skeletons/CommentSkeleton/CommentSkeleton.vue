@@ -15,11 +15,12 @@ export default defineComponent({
       />
     </div>
 
-    <JSkeleton
-      width="100%"
-      height="40px"
-      class="comment-skeleton-editor"
-    />
+    <div class="comment-skeleton-editor">
+      <JSkeleton
+        width="100%"
+        height="40px"
+      />
+    </div>
   </div>
 </template>
 
@@ -35,6 +36,8 @@ export default defineComponent({
 }
 
 .comment-skeleton-editor {
+  display: flex;
+  width: 100%;
   border-radius: 8px;
 }
 </style>

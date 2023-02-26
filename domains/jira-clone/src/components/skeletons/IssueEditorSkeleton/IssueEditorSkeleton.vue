@@ -9,21 +9,24 @@ export default defineComponent({
 <template>
   <div>
     <template v-for="(_, index) in 2" :key="index">
-      <JSkeleton
-        width="85%"
-        height="20px"
-        class="issue-editor-skeleton mb-2"
-      />
-      <JSkeleton
-        width="100%"
-        height="20px"
-        class="issue-editor-skeleton mb-2"
-      />
-      <JSkeleton
-        width="75%"
-        height="20px"
-        class="issue-editor-skeleton mb-2"
-      />
+      <div class="issue-editor-skeleton mb-2">
+        <JSkeleton
+          width="85%"
+          height="20px"
+        />
+      </div>
+      <div class="issue-editor-skeleton mb-2">
+        <JSkeleton
+          width="100%"
+          height="20px"
+        />
+      </div>
+      <div class="issue-editor-skeleton mb-2">
+        <JSkeleton
+          width="75%"
+          height="20px"
+        />
+      </div>
     </template>
   </div>
 </template>

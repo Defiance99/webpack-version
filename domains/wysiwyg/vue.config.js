@@ -4,7 +4,7 @@ const { ModuleFederationPlugin } = require('webpack').container;
 
 module.exports = defineConfig({
   transpileDependencies: true,
-  publicPath: 'https://vue-jira-wysiwyg.onrender.com',
+  publicPath: process.env.NODE_ENV === 'production' ? 'https://vue-jira-wysiwyg.onrender.com' : 'http://localhost:3002/',
   configureWebpack: {
     optimization: {
       splitChunks: false,

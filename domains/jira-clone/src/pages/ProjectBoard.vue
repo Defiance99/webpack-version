@@ -10,7 +10,6 @@ import PageTitle from '@/components/title/PageTitle';
 import ProjectPageContainer from '@/components/shared/ProjectPageContainer';
 import ProjectBoardFilter from '@/modules/project-board/components/ProjectBoardFilter';
 import ProjectBoardColumns from '@/modules/project-board/components/ProjectBoardColumns';
-import useProjectBoardStore from '@/composables/store/useProjectBoardStore';
 
 export default defineComponent({
   components: {
@@ -21,7 +20,6 @@ export default defineComponent({
     ProjectBoardColumns,
   },
   setup() {
-    const { initProjectBoard, isLoad, getProjectBoard } = useProjectBoardStore();
     const boardColumnsHeight = ref<number | null>(null);
 
     const setBoardHeaderHeight = async (): Promise<void> => {
@@ -45,11 +43,7 @@ export default defineComponent({
       window.removeEventListener('resize', setBoardHeaderHeight);
     });
 
-    initProjectBoard();
-
     return {
-      isLoad,
-      getProjectBoard,
       boardColumnsHeight,
     };
   },
@@ -66,10 +60,6 @@ export default defineComponent({
       <ProjectBoardFilter />
     </div>
 
-    <ProjectBoardColumns
-      :board="getProjectBoard"
-      :height="boardColumnsHeight ?? 0"
-      :is-load="isLoad"
-    />
+    <ProjectBoardColumns :height="boardColumnsHeight ?? 0" />
   </ProjectPageContainer>
 </template>

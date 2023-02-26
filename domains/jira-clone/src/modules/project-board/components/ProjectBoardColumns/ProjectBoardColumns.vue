@@ -3,12 +3,10 @@ import {
   defineComponent,
   ref,
   watch,
-  PropType,
 } from 'vue';
-import { ProjectBoard, ProjectColumn } from '@/interfaces/Project.interfcace';
 import IssueCard from '@/components/card/IssueCard';
 import useProjectsStore from '@/composables/store/useProjectsStore';
-import useSetGetUtils from '@/composables/utils/useSetGetUtils';
+import useProjectBoardStore from '@/composables/store/useProjectBoardStore';
 
 export default defineComponent({
   name: 'ProjectBoardColumns',
@@ -16,21 +14,13 @@ export default defineComponent({
     IssueCard,
   },
   props: {
-    board: {
-      type: Object as PropType<ProjectBoard>,
-      required: true,
-    },
     height: {
       type: Number,
       required: true,
     },
-    isLoad: {
-      type: Boolean,
-      default: false,
-    },
   },
   setup(props) {
-    const { setter: setBoardList, getter: getBoardList } = useSetGetUtils<ProjectColumn[] | null>(null);
+    const { initProjectBoard, isLoad, getProjectBoard } = useProjectBoardStore();
     const itemsWrapperRef = ref<HTMLElement | null>(null);
 
     const { getCurrentProjectPage } = useProjectsStore();
@@ -44,15 +34,11 @@ export default defineComponent({
       },
     );
 
-    watch(
-      () => props.board,
-      (newItems: ProjectBoard) => {
-        setBoardList(newItems.columns);
-      },
-    );
+    initProjectBoard();
 
     return {
-      getBoardList,
+      isLoad,
+      getProjectBoard,
       itemsWrapperRef,
       getCurrentProjectPage,
     };
@@ -64,9 +50,9 @@ export default defineComponent({
   <div class="project-board-columns">
     <div ref="itemsWrapperRef" class="project-board-wrapper">
       <div class="project-board-header">
-        <ul v-if="getBoardList" class="board-columns-list">
+        <ul v-if="getProjectBoard" class="board-columns-list">
           <li
-            v-for="(column, index) in getBoardList"
+            v-for="(column, index) in getProjectBoard.columns"
             :key="index"
             class="board-columns-header-list-item board-columns-list-item"
           >
@@ -93,14 +79,14 @@ export default defineComponent({
         class="board-columns-list"
       >
         <div
-          v-for="(column, columnIndex) in getBoardList"
+          v-for="(column, columnIndex) in getProjectBoard.columns"
           :key="columnIndex"
           class="board-columns-body-list-item board-columns-list-item"
         >
           <template v-for="(columnItem, columnItemIndex) in column.issues">
             <IssueCard
               v-if="getCurrentProjectPage"
-              :key="`${columnIndex}/${columnItemIndex}`"
+              :key="`${columnItem.id}/${columnItemIndex}`"
               :issue="columnItem"
               :project="getCurrentProjectPage"
               tabindex="0"

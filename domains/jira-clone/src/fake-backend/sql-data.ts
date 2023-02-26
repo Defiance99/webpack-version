@@ -251,7 +251,7 @@ const usersData = [
   {
     id: 1,
     name: 'Vladimir',
-    image: 'https://res.cloudinary.com/doqir4zpe/image/upload/v1672093312/48_dxrmlo.png',
+    image: 'https://res.cloudinary.com/doqir4zpe/image/upload/v1677445292/1673000203649_wohcbd.jpg',
     projects: ['MP-1'],
   },
   {

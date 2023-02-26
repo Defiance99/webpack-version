@@ -73,7 +73,7 @@ export default defineComponent({
     v-closable="{ handler: onCancelTitleEditor, exclude: titleRef }"
     auto-focus
     rows="1"
-    class="editor"
+    class="editor issue-title-editor"
   />
   <FormControlActions
     v-if="isShowTitleEditor"
@@ -111,7 +111,7 @@ export default defineComponent({
   letter-spacing: -0.01em;
 }
 
-.editor {
+.editor.issue-title-editor{
   display: flex;
   margin-left: -8px;
   padding: 6px 7px;

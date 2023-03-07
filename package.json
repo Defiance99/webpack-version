@@ -3,9 +3,9 @@
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:ui\" \"npm run dev:wysiwyg\" \"npm run dev:jira-clone\" ",
-    "dev:jira-clone": "cd ./domains/jira-clone && npm run dev",
-    "dev:ui": "cd ./domains/jira-ui && npm run dev",
-    "dev:wysiwyg": "cd ./domains/wysiwyg && npm run dev",
+    "dev:jira-clone": "cd ./domains/jira-clone && npm run install && npm run dev",
+    "dev:ui": "cd ./domains/jira-ui && npm run install && npm run dev",
+    "dev:wysiwyg": "cd ./domains/wysiwyg && npm run install && npm run dev",
     "build": "concurrently \"npm run build:ui\" \"npm run build:wysiwyg\" \"npm run build:jira-clone\"",
     "build:jira-clone": "cd ./domains/jira-clone && npm run build",
     "build:ui": "cd ./domains/jira-ui && npm run build",

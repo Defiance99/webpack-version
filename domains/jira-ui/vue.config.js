@@ -2,8 +2,6 @@ const path = require('path');
 const { defineConfig } = require('@vue/cli-service');
 const { ModuleFederationPlugin } = require('webpack').container;
 
-const isProd = process.env.NODE_ENV === 'production';
-
 module.exports = defineConfig({
   css: {
     loaderOptions: {
@@ -13,7 +11,7 @@ module.exports = defineConfig({
     },
   },
   transpileDependencies: true,
-  publicPath: isProd ? 'https://vue-jira-ui.onrender.com' : 'http://localhost:3001/',
+  publicPath: `http://localhost:3001`,
   configureWebpack: {
     optimization: {
       splitChunks: false,
@@ -41,7 +39,7 @@ module.exports = defineConfig({
       }),
     ],
     devServer: {
-      port: 3001,
+      port: process.env.PORT,
     },
   },
 });

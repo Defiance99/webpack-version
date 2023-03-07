@@ -1,0 +1,22 @@
+services:
+  jira-ui:
+    build:
+      context: ./domains/jira-ui
+    ports:
+      - "3001:3001"
+    container_name: jira-ui
+    stdin_open: true
+  wysiwyg:
+    build:
+      context: ./domains/wysiwyg
+    ports:
+      - "3002:3002"
+    container_name: wysiwyg
+    stdin_open: true
+  jira-clone-host:
+    build:
+      context: ./domains/jira-clone
+    ports:
+      - "3000:3000"
+    container_name: jira-clone-host
+    stdin_open: true

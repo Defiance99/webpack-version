@@ -3,11 +3,11 @@ const { defineConfig } = require('@vue/cli-service');
 const { ModuleFederationPlugin } = require('webpack').container;
 
 const isProd = process.env.NODE_ENV === 'production';
-const remoteWysiwyg = isProd ? 'https://vue-jira-wysiwyg.onrender.com/remoteEntry.js' : 'http://localhost:3002/remoteEntry.js';
-const remoteUI = isProd ? 'https://vue-jira-ui.onrender.com/remoteEntry.js' : 'http://localhost:3001/remoteEntry.js';
+const remoteWysiwyg = 'http://localhost:3002/remoteEntry.js';
+const remoteUI = 'http://localhost:3001/remoteEntry.js';
 
 module.exports = defineConfig({
-  publicPath: isProd ? 'https://vue-jira-clone.onrender.com' : '/',
+  publicPath: '/',
   css: {
     loaderOptions: {
       sass: {

@@ -50,7 +50,6 @@ export default defineComponent({
       <JSelect
         :modelValue="[issue.status]"
         :input="{ regular: true }"
-        :attach="false"
         chips
         @update:modelValue="$emit(updateStatusEmit, $event[0])"
       >

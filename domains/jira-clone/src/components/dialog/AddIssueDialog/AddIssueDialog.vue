@@ -154,7 +154,6 @@ export default defineComponent({
         </template>
         <JSelect
           :model-value="[getCurrentProject.id]"
-          :attach="false"
           :input="{ dense: true }"
           @update:modelValue="onProjectChange"
         >
@@ -183,7 +182,6 @@ export default defineComponent({
         </template>
         <JSelect
           :model-value="[createIssueForm.issueType]"
-          :attach="false"
           :input="{ dense: true }"
           @update:modelValue="createIssueForm.issueType = $event[0]"
         >
@@ -215,7 +213,6 @@ export default defineComponent({
         </template>
         <FormControlUsersSelect
           :project="getCurrentProject"
-          :attach="false"
           :input="{ dense: true }"
           :selectedUsersIds="createIssueForm.reporters"
           @select="createIssueForm.reporters = $event"
@@ -229,7 +226,6 @@ export default defineComponent({
         <FormControlUsersSelect
           :project="getCurrentProject"
           :selectedUsersIds="createIssueForm.assignees"
-          :attach="false"
           :input="{ dense: true }"
           @select="createIssueForm.assignees = $event"
         />

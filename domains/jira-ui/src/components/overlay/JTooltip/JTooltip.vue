@@ -1,9 +1,10 @@
 <script lang="ts">
 import {
-  computed, defineComponent, ref, watch,
+  computed, defineComponent, h, ref, watch,
 } from 'vue';
 import useThrottle from '@/composables/utils/useThrottle';
 import useAttachContent from '@/composables/useAttachContent';
+import { htmlIds } from '@/constants/id';
 
 const emitUpdateName = 'update:modelValue';
 
@@ -105,6 +106,7 @@ export default defineComponent({
     });
 
     return {
+      htmlIds,
       labelSizes,
       isShowTooltipOverlay,
       isShowTooltipContent,
@@ -129,7 +131,7 @@ export default defineComponent({
     @blur="onCloseTooltip"
   />
 
-  <Teleport to="#j-overlay-container">
+  <Teleport :to="htmlIds.overlayRoot">
     <div
       v-if="isShowTooltipOverlay"
       ref="tooltipOverlayRef"

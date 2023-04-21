@@ -1,5 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
+import { htmlIds } from '@/constants/id';
 
 const inputEmitName = 'update:modelValue';
 
@@ -34,6 +35,7 @@ export default defineComponent({
     return {
       drawerModel,
       close,
+      htmlIds,
     };
   },
 });
@@ -41,7 +43,7 @@ export default defineComponent({
 
 <template>
   <div>
-    <Teleport to="#j-overlay-container">
+    <Teleport :to="htmlIds.overlayRoot">
       <JOverlay v-model="drawerModel" />
 
       <Transition

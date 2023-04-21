@@ -1,3 +1,4 @@
+// TODO: defineComponent type declaration
 <script lang="ts">
 import {
   useSlots,

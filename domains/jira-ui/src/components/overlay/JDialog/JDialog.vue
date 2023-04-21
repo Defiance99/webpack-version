@@ -2,6 +2,7 @@
 import {
   defineComponent, ref, watch,
 } from 'vue';
+import { htmlIds } from '@/constants/id';
 
 const inputEmitName = 'update:modelValue';
 
@@ -42,6 +43,7 @@ export default defineComponent({
       setDialogModel,
       open,
       close,
+      htmlIds,
     };
   },
 });
@@ -54,7 +56,7 @@ export default defineComponent({
     @keypress.space="open"
   />
 
-  <Teleport to="#j-overlay-container">
+  <Teleport :to="htmlIds.overlayRoot">
     <JOverlay
       v-if="dialogModel"
       :model-value="dialogModel"
@@ -98,6 +100,7 @@ export default defineComponent({
   position: static;
   margin: 12px;
   padding: 24px;
+  overflow: auto;
   max-width: calc(100vw - 50px);
   max-height: calc(100vh - 120px);
   border-radius: 4px;

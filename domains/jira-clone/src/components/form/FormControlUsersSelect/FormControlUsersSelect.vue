@@ -35,7 +35,6 @@ export default defineComponent({
     :modelValue="selectedUsersIds"
     multiple
     :input="{ regular: true }"
-    :attach="false"
     @update:modelValue="$emit(onSelectUserEmitName, [...$event])"
   >
     <JOption

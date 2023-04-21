@@ -28,7 +28,6 @@ export default defineComponent({
 <template>
   <JSelect
     :model-value="[modelValue]"
-    :attach="false"
     :input="{ regular: true }"
     @update:modelValue="$emit(onSelectUserEmit, $event[0])"
   >

@@ -57,6 +57,7 @@ export default defineComponent({
     };
 
     const processSelectItemClick = (slotItem: VNode) => {
+      if (menuModel.value === false) return;
       if (props.multiple) {
         const selectedValueIndex = selectedValues.value.findIndex((activeValue: any) => activeValue === slotItem.props?.value);
 

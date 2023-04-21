@@ -87,7 +87,6 @@ export default defineComponent({
       </template>
       <JSelect
         :model-value="[settingsForm.category]"
-        :attach="false"
         :input="{ dense: true }"
         @update:modelValue="settingsForm.category = $event[0]"
       >

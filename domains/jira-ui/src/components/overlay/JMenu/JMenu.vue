@@ -2,6 +2,7 @@
 import {
   defineComponent, ref, watch, onUnmounted,
 } from 'vue';
+import { htmlIds } from '@/constants/id';
 
 const onInputEmitName = 'update:modelValue';
 
@@ -23,7 +24,7 @@ export default defineComponent({
     },
     attach: {
       type: [String, Boolean],
-      default: '#j-overlay-container',
+      default: null,
     },
     maxHeight: {
       type: [Boolean],
@@ -43,6 +44,8 @@ export default defineComponent({
       emit(onInputEmitName, value);
     };
 
+    const defaultAttachValue = (): string | HTMLElement => htmlIds.overlayRoot;
+
     const setMenuPositions = (): void => {
       if (menuActivatorElement.value === null || menuOverlayRef.value === null || contentMenuRef.value === null) return;
 
@@ -50,9 +53,10 @@ export default defineComponent({
       const activatorCoords: DOMRect = menuActivatorElement.value.getBoundingClientRect();
       const boxshadowOffset = 20;
 
-      if (props.attach) {
+      if (defaultAttachValue()) {
         menuOverlayRef.value.style.left = `${activatorCoords.right - menuCoords.width}px`;
         menuOverlayRef.value.style.top = `${activatorCoords.bottom}px`;
+        menuOverlayRef.value.style.minWidth = `${activatorCoords.width}px`;
       }
 
       if (menuCoords.bottom + boxshadowOffset > window.innerHeight) {
@@ -96,6 +100,7 @@ export default defineComponent({
     };
 
     return {
+      htmlIds,
       closeMenu,
       menuModel,
       showMenu,
@@ -124,7 +129,7 @@ export default defineComponent({
   />
 
   <Teleport
-    :to="attach"
+    :to="htmlIds.overlayRoot"
     :disabled="attach === false"
   >
     <div
@@ -156,7 +161,7 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .j-menu-wrapper{
-  position: fixed;
+  position: absolute;
   z-index: 1000;
 
   &.attach {
@@ -168,7 +173,6 @@ export default defineComponent({
 .j-menu-content {
   padding-top: 8px;
   padding-bottom: 8px;
-  min-width: 200px;
   border-radius: 4px;
   pointer-events: auto;
   background-color: #fff;

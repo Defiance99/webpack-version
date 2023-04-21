@@ -113,7 +113,14 @@ export default defineComponent({
 <template>
   <div
     class="j-text-field-wrapper"
-    :class="{ focused: isFocusInput, active: modelValue, input: showInput, outlined, dense, regular }"
+    :class="{
+      focused: isFocusInput,
+      active: modelValue,
+      input: showInput,
+      outlined,
+      dense,
+      regular,
+    }"
     @click="onInputClick"
   >
     <div v-if="isExistPrependSlot" class="prepend">
@@ -133,7 +140,7 @@ export default defineComponent({
         @focus="isFocusInput = true"
         @blur="isFocusInput = false"
         @keydown.esc="onBlurFocus"
-      >
+      />
       <slot name="label" />
       <label class="j-text-field-label">
         {{ placeholder }}

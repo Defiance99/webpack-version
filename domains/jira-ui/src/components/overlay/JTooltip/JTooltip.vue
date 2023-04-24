@@ -37,14 +37,15 @@ export default defineComponent({
   },
   emits: [emitUpdateName],
   setup(props, { emit }) {
-    const isShowTooltipOverlay = ref<boolean>(false);
+    const isShowTooltip = ref<boolean>(false);
     const isShowTooltipContent = ref<boolean>(false);
     const tooltipOverlayRef = ref<HTMLDivElement | null>(null);
     const tooltipActivatorElement = ref<HTMLElement | null>(null);
     const attachElement = computed(() => useAttachContent(props.attach));
+    let isSetDocumentListenerEvent = false;
 
-    const setTooltipOverlayDisplay = (display: boolean): void => {
-      isShowTooltipOverlay.value = display;
+    const setTooltipDisplay = (display: boolean): void => {
+      isShowTooltip.value = display;
       emit(emitUpdateName, display);
     };
 
@@ -69,7 +70,7 @@ export default defineComponent({
     const throttledSetTooltipPositions = useThrottle(setTooltipPositions, 20);
 
     const showTooltip = (tooltipActivator: EventTarget | null): void => {
-      setTooltipOverlayDisplay(true);
+      setTooltipDisplay(true);
 
       setTimeout(() => {
         setTooltipContentDisplay(true);
@@ -92,11 +93,37 @@ export default defineComponent({
       }
     };
 
-    const onCloseTooltip = (): void => {
+    const closeTooltip = (): void => {
       setTooltipContentDisplay(false);
     };
 
-    watch(isShowTooltipOverlay, (newVal: boolean): void => {
+    const checkCurrentPointerPosition = async (event: MouseEvent): Promise<void> => {
+      const activatorCoords: DOMRect | undefined = tooltipActivatorElement.value?.getBoundingClientRect();
+
+      if (activatorCoords === undefined) return;
+
+      if (
+        activatorCoords.top >= event.pageY ||
+        activatorCoords.bottom <= event.pageY ||
+        activatorCoords.left >= event.pageX ||
+        activatorCoords.right <= event.pageX
+      ) {
+        closeTooltip();
+        document.removeEventListener('mousemove', checkCurrentPointerPosition);
+        isSetDocumentListenerEvent = false;
+      }
+    };
+
+    const onMouseEnter = (event: MouseEvent): void => {
+      processShowEvent(false, event);
+
+      if (isSetDocumentListenerEvent === false) {
+        document.addEventListener('mousemove', checkCurrentPointerPosition);
+        isSetDocumentListenerEvent = true;
+      }
+    };
+
+    watch(isShowTooltip, async (newVal: boolean): Promise<void> => {
       if (newVal) {
         attachElement.value?.addEventListener('scroll', throttledSetTooltipPositions);
       } else {
@@ -106,14 +133,15 @@ export default defineComponent({
     });
 
     return {
+      onMouseEnter,
       htmlIds,
       labelSizes,
-      isShowTooltipOverlay,
+      isShowTooltip,
       isShowTooltipContent,
       tooltipOverlayRef,
-      onCloseTooltip,
+      closeTooltip,
       processShowEvent,
-      setTooltipOverlayDisplay,
+      setTooltipDisplay,
     };
   },
 });
@@ -126,20 +154,19 @@ export default defineComponent({
     @click="processShowEvent(true, $event)"
     @focus="processShowEvent(false, $event)"
     @keypress.enter="processShowEvent(true, $event)"
-    @mouseenter="processShowEvent(false, $event)"
-    @mouseleave="onCloseTooltip"
-    @blur="onCloseTooltip"
+    @mouseenter="onMouseEnter"
+    @blur="closeTooltip"
   />
 
   <Teleport :to="htmlIds.overlayRoot">
     <div
-      v-if="isShowTooltipOverlay"
+      v-if="isShowTooltip"
       ref="tooltipOverlayRef"
       class="j-tooltip-overlay"
     >
       <Transition
         name="scale"
-        @after-leave="setTooltipOverlayDisplay(false)"
+        @after-leave="setTooltipDisplay(false)"
       >
         <div
           v-show="isShowTooltipContent"

@@ -33,7 +33,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="issue-card">
+  <div class="issue-card no-select">
     <div class="issue-card-grabber" />
     <p class="issue-card-title text-body-3">
       {{ issue.name }}

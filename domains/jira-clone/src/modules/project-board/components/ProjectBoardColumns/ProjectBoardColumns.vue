@@ -76,6 +76,7 @@ export default defineComponent({
         :transition-time="400"
         column-selector=".board-columns-body-list-item"
         column-item-selector=".issue-card"
+        board-selector=".project-board-wrapper"
         class="board-columns-list"
       >
         <div
@@ -110,11 +111,18 @@ export default defineComponent({
 <style lang="scss" scoped>
 $width-scroll: 5px;
 
+.project-board-columns {
+  position: relative;
+  overflow: hidden;
+  margin-right: -30px;
+}
+
 .project-board-header {
   position: sticky;
-  z-index: 10;
+  z-index: 200;
   top: 0;
   margin-bottom: 10px;
+  background-color: var(--j-secondary-color);
 }
 
 .project-board-wrapper {

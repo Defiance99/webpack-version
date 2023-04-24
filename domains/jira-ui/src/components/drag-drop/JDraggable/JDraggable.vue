@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import useDragDrop from '@/composables/drag-drop/useDragDrop';
+import useDragDrop from '@/components/drag-drop/JDraggable/useDragDrop';
 
 const onModelValueEmitName = 'update:modelValue';
 
@@ -15,6 +15,10 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    boardSelector: {
+      type: String,
+      required: true,
+    },
     transitionTime: {
       type: Number,
       default: 400,
@@ -26,6 +30,7 @@ export default defineComponent({
       transitionTime: props.transitionTime,
       boardColumnSelector: props.columnSelector,
       columnItemSelector: props.columnItemSelector,
+      boardSelector: props.boardSelector,
     });
 
     return {

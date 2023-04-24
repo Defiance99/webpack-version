@@ -28,6 +28,7 @@ module.exports = {
         devDependencies: ["**/*.test.js", "**/*.spec.js"],
       },
     ],
+    "operator-linebreak": "off",
     "max-len": ["error", { code: 130 }],
     "vuejs-accessibility/label-has-for": ["off"],
     "vuejs-accessibility/aria-props": ["off"],

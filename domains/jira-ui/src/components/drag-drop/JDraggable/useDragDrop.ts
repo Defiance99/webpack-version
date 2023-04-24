@@ -1,23 +1,16 @@
 import { onMounted, onUnmounted } from 'vue';
-
-interface DragDropParams {
-  transitionTime: number;
-  boardColumnSelector: string;
-  columnItemSelector: string;
-}
-
-type ForceMethod = 'prepend' | 'after' | 'before';
-
-interface targetNewPositionInfo {
-  order: number | null,
-  method: ForceMethod | null,
-}
+import { InsertPosition } from '@/components/drag-drop/JDraggable/interfaces/InsertPosition.interface';
+import { DragDropParams } from '@/components/drag-drop/JDraggable/interfaces/DragDropParams.interface';
+import { MethodInsertTypes } from "@/components/drag-drop/JDraggable/types/MethodInsertTypes";
+import { getNewPositionInColumnItems } from '@/components/drag-drop/JDraggable/utils/evalPointerPositions';
 
 export default ({
   transitionTime,
   boardColumnSelector,
   columnItemSelector,
+  boardSelector,
 }: DragDropParams) => {
+  let boardElement: HTMLElement | null = null;
   let dragTargetCard: HTMLElement | null = null;
   const mousePos = {
     x: 0,
@@ -29,12 +22,14 @@ export default ({
   };
   let isTransitionEnd = true;
   let isMouseDown = false;
-  let forceMethod: ForceMethod | null = null;
+  let methodInsert: MethodInsertTypes | null = null;
   let savedPlaceholderElement: HTMLElement | null = null;
   let columnsList: NodeListOf<HTMLElement> | null = null;
   let columnItems: Element[] | null = null;
   let expectedColumn = 0;
   let expectedOrder = 0;
+  let initialScrollX = 0;
+  let initialScrollY = 0;
 
   const setTargetDragCard = (card: HTMLElement | null): void => {
     dragTargetCard = card;
@@ -46,19 +41,14 @@ export default ({
     savedPlaceholderElement = null;
   };
 
-  const addELementToColumn = (element: HTMLElement, order: number, forceMethod: ForceMethod | null = null): void => {
-    if (forceMethod === 'prepend') {
+  const addELementToColumn = (element: HTMLElement, order: number, methodInsert: MethodInsertTypes | null = null): void => {
+    if (methodInsert === 'append') {
       columnsList?.[expectedColumn]?.append(element);
       return;
     }
 
-    if (forceMethod === 'before') {
-      columnItems?.[expectedOrder]?.before(element);
-      return;
-    }
-
-    if (forceMethod === 'after') {
-      columnItems?.[expectedOrder]?.after(element);
+    if (methodInsert === 'before' || methodInsert === 'after') {
+      columnItems?.[expectedOrder]?.[methodInsert](element);
       return;
     }
 
@@ -105,9 +95,9 @@ export default ({
     return elementPlaceholder;
   };
 
-  const checkNewPositionInColumnsOrder = (pointerPosition: MouseEvent): boolean => {
-    if (columnsList === null) return false;
-    let isNewColumn = false;
+  const getPositionInColumnsOrder = (pointerPosition: MouseEvent): number => {
+    if (columnsList === null) return expectedColumn;
+    let currentColumnOrder = expectedColumn;
 
     for (let index = 0; index < columnsList.length; index += 1) {
       if (columnsList[index] === columnsList[expectedColumn]) continue;
@@ -120,72 +110,12 @@ export default ({
         && pointerPosition.pageY <= columnRect.bottom
         && pointerPosition.pageX > columnRect.left
       ) {
-        expectedColumn = index;
-        isNewColumn = true;
+        currentColumnOrder = index;
         break;
       }
     }
 
-    return isNewColumn;
-  };
-
-  const checkNewPositionInColumnItems = (pointerPosition: MouseEvent, items: Element[]): any => {
-    const newTargetPosition: targetNewPositionInfo = {
-      order: null,
-      method: null,
-    };
-
-    if (items === null) {
-      newTargetPosition.order = 0;
-      return newTargetPosition;
-    }
-
-    if (items.length === 0) {
-      newTargetPosition.order = 0;
-      return newTargetPosition;
-    }
-
-    if (items.length === 1 && items[0].getAttribute('selected') === '1') {
-      newTargetPosition.order = 0;
-      return newTargetPosition;
-    }
-
-    for (let index = 0; index < items.length; index += 1) {
-      if (items[index].getAttribute('selected') === '1') {
-        continue;
-      }
-
-      const columnItemRect: DOMRect = items[index].getBoundingClientRect();
-
-      if (pointerPosition.pageX < columnItemRect.left && pointerPosition.pageX > columnItemRect.right) {
-        continue;
-      }
-
-      if (index === items.length - 1) {
-        if (pointerPosition.pageY > columnItemRect.bottom) {
-          newTargetPosition.order = index;
-          newTargetPosition.method = 'prepend';
-          break;
-        }
-      }
-
-      if (
-        pointerPosition.pageY <= columnItemRect.bottom
-        && pointerPosition.pageY >= columnItemRect.bottom - columnItemRect.height / 2
-      ) {
-        newTargetPosition.order = index;
-        newTargetPosition.method = 'before';
-        break;
-      }
-
-      if (pointerPosition.pageY > columnItemRect.top && pointerPosition.pageY < columnItemRect.top + columnItemRect.height / 2) {
-        newTargetPosition.order = index;
-        newTargetPosition.method = 'after';
-        break;
-      }
-    }
-
-    return newTargetPosition;
+    return currentColumnOrder;
   };
 
   const onMouseMove = async (event: MouseEvent): Promise<void> => {
@@ -194,25 +124,29 @@ export default ({
 
     if (isMouseDown === false || dragTargetCard === null || columnItems === null) return;
 
-    const isNewColumn = checkNewPositionInColumnsOrder(event);
-    const newOrderValue: targetNewPositionInfo = checkNewPositionInColumnItems(event, columnItems);
+    const currentColumnOrder = getPositionInColumnsOrder(event);
+    let isNewColumn = false;
 
-    if (isNewColumn) {
+    if (currentColumnOrder !== expectedColumn) {
+      expectedColumn = currentColumnOrder;
+      isNewColumn = true;
       setNewColumnData();
     }
 
-    if (newOrderValue.order !== null) {
-      expectedOrder = newOrderValue.order;
-      forceMethod = newOrderValue.method;
+    const currentColumnItemsOrder: InsertPosition = getNewPositionInColumnItems(event, columnItems, isNewColumn);
 
-      addELementToColumn(savedPlaceholderElement as HTMLElement, expectedOrder, forceMethod);
+    if (currentColumnItemsOrder.order !== null) {
+      expectedOrder = currentColumnItemsOrder.order;
+      methodInsert = currentColumnItemsOrder.method;
+
+      addELementToColumn(savedPlaceholderElement as HTMLElement, expectedOrder, methodInsert);
     }
 
-    dragTargetCard.style.top = `${mousePos.y - diffPos.y}px`;
-    dragTargetCard.style.left = `${mousePos.x - diffPos.x}px`;
+    dragTargetCard.style.top = `${mousePos.y - diffPos.y - initialScrollY}px`;
+    dragTargetCard.style.left = `${mousePos.x - diffPos.x - initialScrollX}px`;
   };
 
-  const dragStartHandler = (event: MouseEvent): void => {
+  const dragStartHandler = async (event: MouseEvent): Promise<void> => {
     const targetElement = event.target as HTMLElement;
     const targetCardElement = targetElement.closest(columnItemSelector) as HTMLElement;
 
@@ -233,6 +167,9 @@ export default ({
 
       const initalItemY = mousePos.y - diffPos.y;
       const initalItemX = mousePos.x - diffPos.x;
+      
+      initialScrollY = boardElement?.scrollTop ?? 0;
+      initialScrollX = boardElement?.scrollLeft ?? 0;
 
       const placeholderElement = createPlaceholder(targetCardElement);
       addELementToColumn(placeholderElement, expectedOrder);
@@ -240,9 +177,9 @@ export default ({
 
       targetCardElement.style.width = `${targetCardElement.getBoundingClientRect().width}px`;
       targetCardElement.style.position = 'absolute';
-      targetCardElement.style.top = `${initalItemY}px`;
-      targetCardElement.style.left = `${initalItemX}px`;
-      targetCardElement.style.zIndex = '1000';
+      targetCardElement.style.top = `${initalItemY - initialScrollY}px`;
+      targetCardElement.style.left = `${initalItemX - initialScrollX}px`;
+      targetCardElement.style.zIndex = '100';
       targetCardElement.setAttribute('selected', '1');
 
       isTransitionEnd = false;
@@ -253,13 +190,13 @@ export default ({
     isMouseDown = false;
 
     if (dragTargetCard === null) return;
-    addELementToColumn(dragTargetCard, expectedOrder, forceMethod);
+    addELementToColumn(dragTargetCard, expectedOrder, methodInsert);
 
     columnsList = null;
-    forceMethod = null;
+    methodInsert = null;
     dragTargetCard.style.transition = '';
-    dragTargetCard.style.top = `${savedPlaceholderElement?.offsetTop}px`;
-    dragTargetCard.style.left = `${savedPlaceholderElement?.offsetLeft}px`;
+    dragTargetCard.style.top = `${(savedPlaceholderElement?.offsetTop ?? 0) - (boardElement?.scrollTop ?? 0)}px`;
+    dragTargetCard.style.left = `${(savedPlaceholderElement?.offsetLeft ?? 0) - (boardElement?.scrollLeft ?? 0)}px`;
     dragTargetCard.removeAttribute('selected');
 
     setTimeout(() => {
@@ -277,6 +214,7 @@ export default ({
   };
 
   onMounted(() => {
+    boardElement = document.querySelector(boardSelector);
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', dragEndHandler);
   });

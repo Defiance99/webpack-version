@@ -3,6 +3,7 @@ import { InsertPosition } from '@/components/drag-drop/JDraggable/interfaces/Ins
 import { DragDropParams } from '@/components/drag-drop/JDraggable/interfaces/DragDropParams.interface';
 import { MethodInsertTypes } from "@/components/drag-drop/JDraggable/types/MethodInsertTypes";
 import { getNewPositionInColumnItems } from '@/components/drag-drop/JDraggable/utils/evalPointerPositions';
+import { createPlaceholder } from '@/components/drag-drop/JDraggable/utils/createPlaceholder';
 
 export default ({
   transitionTime,
@@ -82,17 +83,6 @@ export default ({
         expectedColumn = index;
       }
     });
-  };
-
-  const createPlaceholder = (inheritElement: HTMLElement): HTMLElement => {
-    const elementPlaceholder = document.createElement('div');
-
-    elementPlaceholder.classList.add('j-target-placeholder');
-    elementPlaceholder.style.position = 'relative';
-    elementPlaceholder.style.width = `${inheritElement.getBoundingClientRect().width}px`;
-    elementPlaceholder.style.height = `${inheritElement.getBoundingClientRect().height}px`;
-
-    return elementPlaceholder;
   };
 
   const getPositionInColumnsOrder = (pointerPosition: MouseEvent): number => {
